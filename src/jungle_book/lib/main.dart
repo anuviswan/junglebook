@@ -33,6 +33,7 @@ class _JungleBookAppState extends State<JungleBookApp> {
             setState(() {
               var randomIndex = _random.nextInt(_animals.length);
               _currentAnimal = _animals[randomIndex];
+              print(_currentAnimal);
             });
           },
           child: new Icon(Icons.navigate_next),),
