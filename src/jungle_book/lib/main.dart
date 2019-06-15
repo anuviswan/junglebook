@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 import "dart:math";
+void main() => runApp(JungleBookApp());
 
-void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class JungleBookApp extends StatefulWidget {
+  @override
+  _JungleBookAppState createState() => _JungleBookAppState();
+}
+
+class _JungleBookAppState extends State<JungleBookApp> {
+  String _currentAnimal;
+  List<String> _animals = ["flamingo","taucan"];
+  final _random = new Random();
+
+  @override
+  void initState(){
+    var randomIndex = _random.nextInt(_animals.length);
+    _currentAnimal = _animals[randomIndex];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,27 +27,31 @@ class MyApp extends StatelessWidget {
       home: new Scaffold(
         appBar: new AppBar(title: new Text('Jungle Book')),
         drawer: new AppMenu(),
-        body: new MainPageManager(),
-        floatingActionButton: new FloatingActionButton(onPressed: null,child: new Icon(Icons.shuffle),),
+        body: new DisplayPage(animal: _currentAnimal,),
+        floatingActionButton: new FloatingActionButton(
+          onPressed: (){
+            setState(() {
+              var randomIndex = _random.nextInt(_animals.length);
+              _currentAnimal = _animals[randomIndex];
+            });
+          },
+          child: new Icon(Icons.navigate_next),),
       ),
     );
   }
 }
 
-class MainPageManager extends StatefulWidget {
-  @override
-  _MainPageManagerState createState() => _MainPageManagerState();
-}
 
-class _MainPageManagerState extends State<MainPageManager> {
-  List<String> keys = ["flamingo"];
-  final _random = new Random();
+
+class DisplayPage extends StatelessWidget {
+  final String animal;
+  DisplayPage({this.animal});
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: new Image.asset('images/'+keys[_random.nextInt(keys.length)]+'.jpg',
-        fit: BoxFit.fill,)
+        child: new Image.asset('images/$animal.jpg',
+          fit: BoxFit.fill,)
     );
   }
 }
