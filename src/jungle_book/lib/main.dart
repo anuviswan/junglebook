@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import "dart:math";
 
 void main() => runApp(MyApp());
 
@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
         appBar: new AppBar(title: new Text('Jungle Book')),
         drawer: new AppMenu(),
         body: new MainPageManager(),
+        floatingActionButton: new FloatingActionButton(onPressed: null,child: new Icon(Icons.shuffle),),
       ),
     );
   }
@@ -23,11 +24,14 @@ class MainPageManager extends StatefulWidget {
 }
 
 class _MainPageManagerState extends State<MainPageManager> {
+  List<String> keys = ["flamingo"];
+  final _random = new Random();
+
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: new Image.asset('images/flamingo.jpg',
-        fit: BoxFit.cover,)
+      child: new Image.asset('images/'+keys[_random.nextInt(keys.length)]+'.jpg',
+        fit: BoxFit.fill,)
     );
   }
 }
