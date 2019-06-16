@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import "dart:math";
+import 'package:audioplayers/audio_cache.dart';
+
 void main() => runApp(JungleBookApp());
 
 
@@ -10,11 +12,14 @@ class JungleBookApp extends StatefulWidget {
 
 class _JungleBookAppState extends State<JungleBookApp> {
   String _currentAnimal;
-  List<String> _animals = ["flamingo","taucan"];
+  List<String> _animals = [
+    "flamingo",
+    "toucan"];
   final _random = new Random();
 
   @override
-  void initState(){
+  void initState()
+  {
     var randomIndex = _random.nextInt(_animals.length);
     _currentAnimal = _animals[randomIndex];
     super.initState();
@@ -31,8 +36,13 @@ class _JungleBookAppState extends State<JungleBookApp> {
         floatingActionButton: new FloatingActionButton(
           onPressed: (){
             setState(() {
-              var randomIndex = _random.nextInt(_animals.length);
-              _currentAnimal = _animals[randomIndex];
+              var currentChoice = _currentAnimal;
+              while(currentChoice== _currentAnimal)
+              {
+                var randomIndex = _random.nextInt(_animals.length);
+                _currentAnimal = _animals[randomIndex];
+              }
+
               print(_currentAnimal);
             });
           },
@@ -42,17 +52,41 @@ class _JungleBookAppState extends State<JungleBookApp> {
   }
 }
 
+class PathManager {
 
+  String GetImagePath(String animalKey){
+    return 'images/$animalKey.jpg';
+  }
+
+  String GetBirdCryPath(String animalKey){
+    return '$animalKey.mp3';
+  }
+}
 
 class DisplayPage extends StatelessWidget {
   final String animal;
+  final PathManager _pathManager = new PathManager();
+  static AudioCache player = AudioCache();
   DisplayPage({this.animal});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: new Image.asset('images/$animal.jpg',
-          fit: BoxFit.fill,)
+    return new ListView(
+        children: <Widget>[
+          new ListTile(
+               title:new Image.asset(_pathManager.GetImagePath(animal),
+                 fit: BoxFit.cover,
+                 alignment: Alignment.center,
+                  ),
+            onTap: (){
+                 print('current path ${_pathManager.GetBirdCryPath(animal)}');
+                 player.play(_pathManager.GetBirdCryPath(animal));
+            }
+            ),
+
+
+        ],
+
     );
   }
 }
