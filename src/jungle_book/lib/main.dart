@@ -16,6 +16,9 @@ class _JungleBookAppState extends State<JungleBookApp> {
     "flamingo",
     "toucan"];
   final _random = new Random();
+  final PathManager _pathManager = new PathManager();
+  static AudioCache player = AudioCache();
+
 
   @override
   void initState()
@@ -30,11 +33,16 @@ class _JungleBookAppState extends State<JungleBookApp> {
     return MaterialApp(
       title: 'Jungle Book',
       home: new Scaffold(
-        appBar: new AppBar(title: new Text('Jungle Book')),
+        appBar: new AppBar(
+          title: new Text('Jungle Book'),
+          actions: <Widget>[
+            new IconButton(icon: new Icon(Icons.mic), onPressed: (){})
+          ],
+        ),
         drawer: new AppMenu(),
-        body: new DisplayPage(animal: _currentAnimal,),
-        floatingActionButton: new FloatingActionButton(
-          onPressed: (){
+        body: new GestureDetector(
+          child: new DisplayPage(animal: _currentAnimal),
+          onHorizontalDragEnd: (DragEndDetails details){
             setState(() {
               var currentChoice = _currentAnimal;
               while(currentChoice== _currentAnimal)
@@ -45,6 +53,11 @@ class _JungleBookAppState extends State<JungleBookApp> {
 
               print(_currentAnimal);
             });
+          },
+        ),
+        floatingActionButton: new FloatingActionButton(
+          onPressed: (){
+            player.play(_pathManager.GetBirdCryPath(_currentAnimal));
           },
           child: new Icon(Icons.navigate_next),),
       ),
@@ -66,27 +79,15 @@ class PathManager {
 class DisplayPage extends StatelessWidget {
   final String animal;
   final PathManager _pathManager = new PathManager();
-  static AudioCache player = AudioCache();
   DisplayPage({this.animal});
 
   @override
   Widget build(BuildContext context) {
-    return new ListView(
-        children: <Widget>[
-          new ListTile(
-               title:new Image.asset(_pathManager.GetImagePath(animal),
-                 fit: BoxFit.cover,
-                 alignment: Alignment.center,
-                  ),
-            onTap: (){
-                 print('current path ${_pathManager.GetBirdCryPath(animal)}');
-                 player.play(_pathManager.GetBirdCryPath(animal));
-            }
-            ),
-
-
-        ],
-
+    return new Image.asset(_pathManager.GetImagePath(animal),
+      fit: BoxFit.cover,
+      alignment: Alignment.center,
+      height: double.infinity,
+      width: double.infinity,
     );
   }
 }
