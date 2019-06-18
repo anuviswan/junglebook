@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import "dart:math";
+import 'dart:async';
 import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 void main() => runApp(JungleBookApp());
 
@@ -17,8 +19,16 @@ class _JungleBookAppState extends State<JungleBookApp> {
     "toucan"];
   final _random = new Random();
   final PathManager _pathManager = new PathManager();
-  static AudioCache player = AudioCache();
+  static AudioPlayer audioPlayer = new AudioPlayer();
+  static AudioCache audioCache = new AudioCache(fixedPlayer: audioPlayer);
 
+  Future<void> play(url) async {
+    audioCache.play(url);
+  }
+
+  Future<void> stop() async{
+    var result = await audioPlayer.stop();
+  }
 
   @override
   void initState()
@@ -43,6 +53,7 @@ class _JungleBookAppState extends State<JungleBookApp> {
         body: new GestureDetector(
           child: new DisplayPage(animal: _currentAnimal),
           onHorizontalDragEnd: (DragEndDetails details){
+            stop();
             setState(() {
               var currentChoice = _currentAnimal;
               while(currentChoice== _currentAnimal)
@@ -57,7 +68,7 @@ class _JungleBookAppState extends State<JungleBookApp> {
         ),
         floatingActionButton: new FloatingActionButton(
           onPressed: (){
-            player.play(_pathManager.GetBirdCryPath(_currentAnimal));
+            play(_pathManager.GetBirdCryPath(_currentAnimal));
           },
           child: new Icon(Icons.navigate_next),),
       ),
