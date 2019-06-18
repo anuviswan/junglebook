@@ -3,6 +3,9 @@ import "dart:math";
 import 'dart:async';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'appmenu.dart';
+import 'homepage.dart';
+import 'pathmanager.dart';
 
 void main() => runApp(JungleBookApp());
 
@@ -51,7 +54,7 @@ class _JungleBookAppState extends State<JungleBookApp> {
         ),
         drawer: new AppMenu(),
         body: new GestureDetector(
-          child: new DisplayPage(animal: _currentAnimal),
+          child: new HomePage(animal: _currentAnimal),
           onHorizontalDragEnd: (DragEndDetails details){
             stop();
             setState(() {
@@ -76,55 +79,8 @@ class _JungleBookAppState extends State<JungleBookApp> {
   }
 }
 
-class PathManager {
-
-  String GetImagePath(String animalKey){
-    return 'images/$animalKey.jpg';
-  }
-
-  String GetBirdCryPath(String animalKey){
-    return '$animalKey.mp3';
-  }
-}
-
-class DisplayPage extends StatelessWidget {
-  final String animal;
-  final PathManager _pathManager = new PathManager();
-  DisplayPage({this.animal});
-
-  @override
-  Widget build(BuildContext context) {
-    return new Image.asset(_pathManager.GetImagePath(animal),
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
-      height: double.infinity,
-      width: double.infinity,
-    );
-  }
-}
 
 
-class AppMenu extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new ListView(
-      children: <Widget>[
-        DrawerHeader(
-          child: Text('Jungle Book'),
-          decoration: BoxDecoration(
-              color: Colors.blue
-          ),),
-        new ListTile(
-          title: new Text('Random Mode'),
-          trailing: new Icon(Icons.autorenew),
-          onTap: () => Navigator.of(context).pop(),
-        ),
-        new ListTile(
-          title: new Text('Scene Mode'),
-          trailing: new Icon(Icons.picture_in_picture),
-          onTap: () => Navigator.of(context).pop(),
-        )
-      ],
-    );
-  }
-}
+
+
+
