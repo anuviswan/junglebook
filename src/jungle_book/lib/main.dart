@@ -6,6 +6,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'appmenu.dart';
 import 'homepage.dart';
 import 'pathmanager.dart';
+import 'BirdManager.dart';
 
 void main() => runApp(JungleBookApp());
 
@@ -17,9 +18,10 @@ class JungleBookApp extends StatefulWidget {
 
 class _JungleBookAppState extends State<JungleBookApp> {
   String _currentAnimal;
-  List<String> _animals = [
-    "flamingo",
-    "toucan"];
+  static BirdManager _birdManager = new BirdManager();
+  
+  List<String> _animals = _birdManager.getList(3);
+
   final _random = new Random();
   final PathManager _pathManager = new PathManager();
   static AudioPlayer audioPlayer = new AudioPlayer();
