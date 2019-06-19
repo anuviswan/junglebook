@@ -8,11 +8,11 @@ import 'slideshow.dart';
 import 'pathmanager.dart';
 import 'BirdManager.dart';
 
-void main() => runApp(MaterialApp(home:new NewPage()));
+void main() => runApp(MaterialApp(home:new HomePage()));
 
 
 
-class NewPage extends StatelessWidget {
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -28,7 +28,7 @@ class NewPage extends StatelessWidget {
                   height: 150.0,
                   child: new Stack(
                     children: <Widget>[
-                      Positioned.fill(child: Image.asset('home/birds.jpg',fit: BoxFit.cover,)),
+                      Positioned.fill(child: Image.asset('images/graphics/birds_card.jpg',fit: BoxFit.cover,)),
                       Positioned(
                         bottom: 16.0,
                         left:16.0,
@@ -36,8 +36,7 @@ class NewPage extends StatelessWidget {
                         child: new FittedBox(
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.centerLeft,
-                          child: new Text('Wings of Freedom',
-                          style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),),
+                          child: new Text('Winged Wonders',style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),),
                         ),
                       )
                     ],
@@ -48,7 +47,8 @@ class NewPage extends StatelessWidget {
                   child: ButtonBar(
                     alignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      new FlatButton(onPressed: (){}, child: new Text('Take Tour'))
+                      new Text("Learn more on Winged Wonders"),
+                      new FlatButton(onPressed: (){},  child: new Text('Start Tour'))
                     ],
                   ),
                 )
@@ -64,7 +64,7 @@ class NewPage extends StatelessWidget {
             height: 150.0,
             child: new Stack(
               children: <Widget>[
-                Positioned.fill(child: Image.asset('home/birds.png',fit: BoxFit.cover,)),
+                Positioned.fill(child: Image.asset('images/graphics/animals_card.jpg',fit: BoxFit.cover,)),
                 Positioned(
                   bottom: 16.0,
                   left:16.0,
@@ -72,8 +72,7 @@ class NewPage extends StatelessWidget {
                   child: new FittedBox(
                     fit: BoxFit.scaleDown,
                     alignment: Alignment.centerLeft,
-                    child: new Text('Jungle Safari',
-                      style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),),
+                    child: new Text('Animal Kingdom',style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),),
                   ),
                 )
               ],
@@ -84,7 +83,8 @@ class NewPage extends StatelessWidget {
             child: ButtonBar(
               alignment: MainAxisAlignment.end,
               children: <Widget>[
-                new FlatButton(onPressed: (){}, child: new Text('Take Tour'))
+                new Text("Learn more on Animal world"),
+                new FlatButton(onPressed: (){}, child: new Text('Start Tour'))
               ],
             ),
           )
