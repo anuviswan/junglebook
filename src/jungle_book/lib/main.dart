@@ -4,11 +4,125 @@ import 'dart:async';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'appmenu.dart';
-import 'homepage.dart';
+import 'slideshow.dart';
 import 'pathmanager.dart';
 import 'BirdManager.dart';
 
-void main() => runApp(JungleBookApp());
+void main() => runApp(MaterialApp(home:new NewPage()));
+
+
+
+class NewPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(title: new Text('Jungle Book'),),
+      body: ListView(
+        padding: EdgeInsets.all(8.0),
+        children: <Widget>[
+          new Card(
+            color: Colors.white,
+            child: new Column(
+              children: <Widget>[
+                new SizedBox(
+                  height: 150.0,
+                  child: new Stack(
+                    children: <Widget>[
+                      Positioned.fill(child: Image.asset('home/birds.jpg',fit: BoxFit.cover,)),
+                      Positioned(
+                        bottom: 16.0,
+                        left:16.0,
+                        right:16.0,
+                        child: new FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: new Text('Wings of Freedom',
+                          style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),),
+                        ),
+                      )
+                    ],
+                  ),
+                    
+                ),
+                ButtonTheme.bar(
+                  child: ButtonBar(
+                    alignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      new FlatButton(onPressed: (){}, child: new Text('Take Tour'))
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+
+      new Card(
+      color: Colors.white,
+      child: new Column(
+        children: <Widget>[
+          new SizedBox(
+            height: 150.0,
+            child: new Stack(
+              children: <Widget>[
+                Positioned.fill(child: Image.asset('home/birds.png',fit: BoxFit.cover,)),
+                Positioned(
+                  bottom: 16.0,
+                  left:16.0,
+                  right:16.0,
+                  child: new FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: new Text('Jungle Safari',
+                      style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),),
+                  ),
+                )
+              ],
+            ),
+
+          ),
+          ButtonTheme.bar(
+            child: ButtonBar(
+              alignment: MainAxisAlignment.end,
+              children: <Widget>[
+                new FlatButton(onPressed: (){}, child: new Text('Take Tour'))
+              ],
+            ),
+          )
+        ],
+      ),
+    )
+        ],
+      )
+    );
+      /*new Center(child: new RaisedButton(child: new Text('Take Tour'), onPressed: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SecondRoute()),
+        );
+      },),),
+    );*/
+  }
+}
+
+class SecondRoute extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Second Route"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Go back!'),
+        ),
+      ),
+    );
+  }
+}
+
 
 
 class JungleBookApp extends StatefulWidget {
@@ -56,7 +170,7 @@ class _JungleBookAppState extends State<JungleBookApp> {
         ),
         drawer: new AppMenu(),
         body: new GestureDetector(
-          child: new HomePage(animal: _currentAnimal),
+          child: new SlideShow(animal: _currentAnimal),
           onHorizontalDragEnd: (DragEndDetails details){
             stop();
             setState(() {

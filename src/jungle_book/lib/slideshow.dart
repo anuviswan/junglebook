@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'pathmanager.dart';
 
-class HomePage extends StatelessWidget {
+class SlideShow extends StatelessWidget {
   final String animal;
   final PathManager _pathManager = new PathManager();
-  HomePage({this.animal});
+  SlideShow({this.animal});
 
   @override
   Widget build(BuildContext context) {
