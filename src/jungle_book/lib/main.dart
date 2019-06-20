@@ -7,6 +7,7 @@ import 'appmenu.dart';
 import 'slideshow.dart';
 import 'pathmanager.dart';
 import 'BirdManager.dart';
+import 'slidecordinator.dart';
 
 void main() => runApp(MaterialApp(home:new HomePage()));
 
@@ -48,7 +49,12 @@ class HomePage extends StatelessWidget {
                     alignment: MainAxisAlignment.end,
                     children: <Widget>[
                       new Text("Learn more on Winged Wonders"),
-                      new FlatButton(onPressed: (){},  child: new Text('Start Tour'))
+                      new FlatButton(onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => new SlideCordinator()),
+                        );
+                      },  child: new Text('Start Tour'))
                     ],
                   ),
                 )
@@ -72,7 +78,7 @@ class HomePage extends StatelessWidget {
                   child: new FittedBox(
                     fit: BoxFit.scaleDown,
                     alignment: Alignment.centerLeft,
-                    child: new Text('Animal Kingdom',style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),),
+                    child: new Text('Animal Kingdom.',style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),),
                   ),
                 )
               ],
