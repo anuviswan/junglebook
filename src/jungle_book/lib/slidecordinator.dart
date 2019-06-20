@@ -7,7 +7,7 @@ import 'appmenu.dart';
 import 'slideshow.dart';
 import 'pathmanager.dart';
 import 'BirdManager.dart';
-
+import 'dictionary.dart';
 
 class SlideCordinator extends StatefulWidget {
   @override
@@ -21,7 +21,7 @@ class _SlideCordinatorState extends State<SlideCordinator> {
   List<String> _animals = _birdManager.getList(3);
 
   final _random = new Random();
-  final PathManager _pathManager = new PathManager();
+  final BaseDictionary _dictionary = new BirdsLocalDictionary();
   static AudioPlayer audioPlayer = new AudioPlayer();
   static AudioCache audioCache = new AudioCache(fixedPlayer: audioPlayer);
 
@@ -71,7 +71,7 @@ class _SlideCordinatorState extends State<SlideCordinator> {
         ),
         floatingActionButton: new FloatingActionButton(
           onPressed: (){
-            play(_pathManager.GetBirdCryPath(_currentAnimal));
+            play(_dictionary.getCryAudioFilePath(_currentAnimal));
           },
           child: new Icon(Icons.navigate_next),),
       ),

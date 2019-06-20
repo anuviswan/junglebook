@@ -5,7 +5,7 @@ class PathManager {
   }
 
   String GetBirdCryPath(String animalKey){
-    return '$animalKey.mp3';
+    return 'assets/$animalKey.mp3';
   }
 }
 
