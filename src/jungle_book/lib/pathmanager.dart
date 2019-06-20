@@ -9,8 +9,3 @@ class PathManager {
   }
 }
 
-abstract class BaseDictionary{
-  String getImageFilePath(String key);
-  String getCryAudioFilePath(String key);
-  String getPronunciationAudioFilePath(String key);
-}
