@@ -8,7 +8,7 @@ import 'slideshow.dart';
 import 'pathmanager.dart';
 import 'BirdManager.dart';
 import 'slidecordinator.dart';
-
+import 'dictionary.dart';
 void main() => runApp(MaterialApp(home:new HomePage()));
 
 
@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
                       new FlatButton(onPressed: (){
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => new SlideCordinator()),
+                          MaterialPageRoute(builder: (context) => new SlideCordinator(baseDictionary: new BirdsLocalDictionary(),)),
                         );
                       },  child: new Text('Start Tour'))
                     ],

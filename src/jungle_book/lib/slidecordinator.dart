@@ -10,6 +10,9 @@ import 'BirdManager.dart';
 import 'dictionary.dart';
 
 class SlideCordinator extends StatefulWidget {
+  final BaseDictionary baseDictionary;
+
+  SlideCordinator({this.baseDictionary}):super();
   @override
   _SlideCordinatorState createState() => _SlideCordinatorState();
 }
@@ -21,7 +24,6 @@ class _SlideCordinatorState extends State<SlideCordinator> {
   List<String> _animals = _birdManager.getList(3);
 
   final _random = new Random();
-  final BaseDictionary _dictionary = new BirdsLocalDictionary();
   static AudioPlayer audioPlayer = new AudioPlayer();
   static AudioCache audioCache = new AudioCache(fixedPlayer: audioPlayer);
 
@@ -71,7 +73,7 @@ class _SlideCordinatorState extends State<SlideCordinator> {
         ),
         floatingActionButton: new FloatingActionButton(
           onPressed: (){
-            play(_dictionary.getCryAudioFilePath(_currentAnimal));
+            play(widget.baseDictionary.getCryAudioFilePath(_currentAnimal));
           },
           child: new Icon(Icons.navigate_next),),
       ),

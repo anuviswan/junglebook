@@ -2,6 +2,7 @@ abstract class BaseDictionary{
   String getImageFilePath(String key);
   String getCryAudioFilePath(String key);
   String getPronunciationAudioFilePath(String key);
+  List<String> getList();
 }
 
 class BirdsLocalDictionary extends BaseDictionary{
@@ -15,5 +16,22 @@ class BirdsLocalDictionary extends BaseDictionary{
 
   @override
   getPronunciationAudioFilePath(String key)=> '';
+
+  @override
+  getList(){
+    List<String> _birds = [
+      "flamingo",
+      "toucan",
+      'kingfisher',
+      'macaw',
+      'owl',
+      'parrot',
+      'reedling',
+      'penguin'];
+    _birds.shuffle();
+    var startIndex = 1;
+    var returnList = _birds.sublist(startIndex,_birds.length+1);
+    return returnList;
+  }
 }
 
