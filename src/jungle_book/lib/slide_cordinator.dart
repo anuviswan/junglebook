@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
-import "dart:math";
 import 'dart:async';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'appmenu.dart';
 import 'slideshow.dart';
-import 'pathmanager.dart';
-import 'BirdManager.dart';
 import 'dictionary.dart';
 
 class SlideCordinator extends StatefulWidget {
   final BaseDictionary baseDictionary;
-
-  SlideCordinator({this.baseDictionary}):super();
+  List<String> _animalList;
+  SlideCordinator({this.baseDictionary}):super(){
+    _animalList = this.baseDictionary.getList();
+  }
   @override
   _SlideCordinatorState createState() => _SlideCordinatorState();
 }
 
 class _SlideCordinatorState extends State<SlideCordinator> {
   String _currentAnimal;
-  static BirdManager _birdManager = new BirdManager();
-
-  List<String> _animals = _birdManager.getList(3);
-
-  final _random = new Random();
+  int currentIndex = 1;
   static AudioPlayer audioPlayer = new AudioPlayer();
   static AudioCache audioCache = new AudioCache(fixedPlayer: audioPlayer);
+
 
   Future<void> play(url) async {
     audioCache.play(url);
@@ -38,8 +34,7 @@ class _SlideCordinatorState extends State<SlideCordinator> {
   @override
   void initState()
   {
-    var randomIndex = _random.nextInt(_animals.length);
-    _currentAnimal = _animals[randomIndex];
+    _currentAnimal = widget._animalList[currentIndex];
     super.initState();
   }
 
@@ -60,14 +55,8 @@ class _SlideCordinatorState extends State<SlideCordinator> {
           onHorizontalDragEnd: (DragEndDetails details){
             stop();
             setState(() {
-              var currentChoice = _currentAnimal;
-              while(currentChoice== _currentAnimal)
-              {
-                var randomIndex = _random.nextInt(_animals.length);
-                _currentAnimal = _animals[randomIndex];
-              }
-
-              print(_currentAnimal);
+              currentIndex+=1;
+              _currentAnimal = widget._animalList.elementAt(currentIndex);
             });
           },
         ),
