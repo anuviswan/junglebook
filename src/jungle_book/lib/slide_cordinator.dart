@@ -10,7 +10,9 @@ class SlideCordinator extends StatefulWidget {
   final BaseDictionary baseDictionary;
   List<String> _animalList;
   SlideCordinator({this.baseDictionary}):super(){
+    print(this.baseDictionary.getName());
     _animalList = this.baseDictionary.getList();
+    print(_animalList.length);
   }
   @override
   _SlideCordinatorState createState() => _SlideCordinatorState();

@@ -5,9 +5,12 @@ import 'dart:io';
 class BirdsLocalCollection extends FaunaCollectionBase
 {
   @override
-  List<FaunaMetaData> GetList() {
-    var file = File('data.txt');
+  List<FaunaMetaData> GetList ()  {
+
+    new File('assets/database/birds.json').readAsString().then((String contents) {
+      print(contents);});
+
+    print('soimething is wrong');
     return null;
   }
-
 }

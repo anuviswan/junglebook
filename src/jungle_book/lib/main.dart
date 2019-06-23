@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
                   height: 150.0,
                   child: new Stack(
                     children: <Widget>[
-                      Positioned.fill(child: Image.asset('images/graphics/birds_card.jpg',fit: BoxFit.cover,)),
+                      Positioned.fill(child: Image.asset('assets/graphics/birds_card.jpg',fit: BoxFit.cover,)),
                       Positioned(
                         bottom: 16.0,
                         left:16.0,
@@ -63,7 +63,7 @@ class HomePage extends StatelessWidget {
             height: 150.0,
             child: new Stack(
               children: <Widget>[
-                Positioned.fill(child: Image.asset('images/graphics/animals_card.jpg',fit: BoxFit.cover,)),
+                Positioned.fill(child: Image.asset('assets/graphics/animals_card.jpg',fit: BoxFit.cover,)),
                 Positioned(
                   bottom: 16.0,
                   left:16.0,
