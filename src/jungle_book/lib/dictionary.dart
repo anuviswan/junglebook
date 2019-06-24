@@ -5,7 +5,7 @@ abstract class BaseDictionary{
   String getImageFilePath(String key);
   String getCryAudioFilePath(String key);
   String getPronunciationAudioFilePath(String key);
-  List<String> getList();
+  Future<List<String>> getList();
 }
 
 class BirdsLocalDictionary extends BaseDictionary{
@@ -24,14 +24,14 @@ class BirdsLocalDictionary extends BaseDictionary{
   getPronunciationAudioFilePath(String key)=> '';
 
   @override
-  getList(){
+  getList() async{
     var collection = new BirdsLocalCollection();
-    var _birds = collection.GetList();
+    var _birds = await collection.GetList();
 
     _birds.shuffle();
-    var startIndex = 1;
-    var returnList = _birds.sublist(startIndex,_birds.length+1);
-    return null;
+    //var startIndex = 1;
+    //var returnList = _birds.sublist(startIndex,_birds.length+1);
+    return _birds;
   }
 
 
