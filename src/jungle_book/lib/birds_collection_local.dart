@@ -9,8 +9,6 @@ class BirdsLocalCollection extends FaunaCollectionBase {
     var data = await readFile();
     final jsonResponse= jsonDecode(data);
 
-
-    Iterable l = json.decode(data);
     List<FaunaMetaData> faunaCollection =  (jsonResponse as List)
         .map((p) => FaunaMetaData.fromJson(p))
         .toList();

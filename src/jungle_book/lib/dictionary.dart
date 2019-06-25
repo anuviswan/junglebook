@@ -30,8 +30,6 @@ class BirdsLocalDictionary extends BaseDictionary{
     var _birds = await collection.GetList();
 
     _birds.shuffle();
-    //var startIndex = 1;
-    //var returnList = _birds.sublist(startIndex,_birds.length+1);
     return _birds;
   }
 

@@ -10,9 +10,10 @@ import 'fauna_meta_data.dart';
 class SlideCordinator extends StatefulWidget {
   final BaseDictionary baseDictionary;
   List<FaunaMetaData> _animalList;
+  FaunaMetaData _currentAnimal;
   SlideCordinator({this.baseDictionary}):super(){
     print(this.baseDictionary.getName());
-    this.baseDictionary.getList().then((data){_animalList = data;  print('retrieved ${_animalList.length}');});
+    this.baseDictionary.getList().then((data){_animalList = data;  _currentAnimal = _animalList.first; print(_currentAnimal.name); });
 
   }
   @override
@@ -20,7 +21,7 @@ class SlideCordinator extends StatefulWidget {
 }
 
 class _SlideCordinatorState extends State<SlideCordinator> {
-  FaunaMetaData _currentAnimal;
+
   int currentIndex = 1;
   static AudioPlayer audioPlayer = new AudioPlayer();
   static AudioCache audioCache = new AudioCache(fixedPlayer: audioPlayer);
@@ -37,39 +38,45 @@ class _SlideCordinatorState extends State<SlideCordinator> {
   @override
   void initState()
   {
-    print('size${widget._animalList.length}');
-    _currentAnimal = widget._animalList[currentIndex];
+   //print('size${widget._animalList.length}');
+   // _currentAnimal = widget._animalList[currentIndex];
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Jungle Book',
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Jungle Book'),
-          actions: <Widget>[
-            new IconButton(icon: new Icon(Icons.mic), onPressed: (){})
-          ],
+    if(widget._currentAnimal != null){
+      return MaterialApp(
+        title: 'Jungle Book',
+        home: new Scaffold(
+          appBar: new AppBar(
+            title: new Text('Jungle Book'),
+            actions: <Widget>[
+              new IconButton(icon: new Icon(Icons.mic), onPressed: (){})
+            ],
+          ),
+          drawer: new AppMenu(),
+          body: new GestureDetector(
+            child: new SlideShow(animalPath: widget._currentAnimal.imageFilePath),
+            onHorizontalDragEnd: (DragEndDetails details){
+              stop();
+              setState(() {
+                currentIndex+=1;
+                widget._currentAnimal = widget._animalList.elementAt(currentIndex);
+              });
+            },
+          ),
+          floatingActionButton: new FloatingActionButton(
+            onPressed: (){
+              play(widget.baseDictionary.getCryAudioFilePath(widget._currentAnimal.cryAudioFilePath));
+            },
+            child: new Icon(Icons.navigate_next),),
         ),
-        drawer: new AppMenu(),
-        body: new GestureDetector(
-          child: new SlideShow(animalPath: _currentAnimal.imageFilePath),
-          onHorizontalDragEnd: (DragEndDetails details){
-            stop();
-            setState(() {
-              currentIndex+=1;
-              _currentAnimal = widget._animalList.elementAt(currentIndex);
-            });
-          },
-        ),
-        floatingActionButton: new FloatingActionButton(
-          onPressed: (){
-            play(widget.baseDictionary.getCryAudioFilePath(_currentAnimal.cryAudioFilePath));
-          },
-          child: new Icon(Icons.navigate_next),),
-      ),
-    );
+      );
+    }
+    else{
+      return new Container();
+      }
+
   }
 }
