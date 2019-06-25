@@ -5,13 +5,14 @@ import 'package:audioplayers/audioplayers.dart';
 import 'appmenu.dart';
 import 'slideshow.dart';
 import 'dictionary.dart';
+import 'fauna_meta_data.dart';
 
 class SlideCordinator extends StatefulWidget {
   final BaseDictionary baseDictionary;
-  List<String> _animalList;
+  List<FaunaMetaData> _animalList;
   SlideCordinator({this.baseDictionary}):super(){
     print(this.baseDictionary.getName());
-    this.baseDictionary.getList().then((data){_animalList = data;  print(_animalList.length);});
+    this.baseDictionary.getList().then((data){_animalList = data;  print('retrieved ${_animalList.length}');});
 
   }
   @override
@@ -19,7 +20,7 @@ class SlideCordinator extends StatefulWidget {
 }
 
 class _SlideCordinatorState extends State<SlideCordinator> {
-  String _currentAnimal;
+  FaunaMetaData _currentAnimal;
   int currentIndex = 1;
   static AudioPlayer audioPlayer = new AudioPlayer();
   static AudioCache audioCache = new AudioCache(fixedPlayer: audioPlayer);
@@ -36,6 +37,7 @@ class _SlideCordinatorState extends State<SlideCordinator> {
   @override
   void initState()
   {
+    print('size${widget._animalList.length}');
     _currentAnimal = widget._animalList[currentIndex];
     super.initState();
   }
@@ -53,7 +55,7 @@ class _SlideCordinatorState extends State<SlideCordinator> {
         ),
         drawer: new AppMenu(),
         body: new GestureDetector(
-          child: new SlideShow(animal: _currentAnimal),
+          child: new SlideShow(animalPath: _currentAnimal.imageFilePath),
           onHorizontalDragEnd: (DragEndDetails details){
             stop();
             setState(() {
@@ -64,7 +66,7 @@ class _SlideCordinatorState extends State<SlideCordinator> {
         ),
         floatingActionButton: new FloatingActionButton(
           onPressed: (){
-            play(widget.baseDictionary.getCryAudioFilePath(_currentAnimal));
+            play(widget.baseDictionary.getCryAudioFilePath(_currentAnimal.cryAudioFilePath));
           },
           child: new Icon(Icons.navigate_next),),
       ),

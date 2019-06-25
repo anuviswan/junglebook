@@ -3,13 +3,13 @@ import 'pathmanager.dart';
 import 'dictionary.dart';
 
 class SlideShow extends StatelessWidget {
-  final String animal;
+  final String animalPath;
   final BaseDictionary _dictionary = new BirdsLocalDictionary();
-  SlideShow({this.animal});
+  SlideShow({this.animalPath});
 
   @override
   Widget build(BuildContext context) {
-    return new Image.asset(_dictionary.getImageFilePath(animal),
+    return new Image.asset(this.animalPath,
       fit: BoxFit.cover,
       alignment: Alignment.center,
       height: double.infinity,

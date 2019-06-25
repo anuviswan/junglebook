@@ -1,11 +1,12 @@
 import 'birds_collection_local.dart';
+import 'fauna_meta_data.dart';
 
 abstract class BaseDictionary{
   String getName();
   String getImageFilePath(String key);
   String getCryAudioFilePath(String key);
   String getPronunciationAudioFilePath(String key);
-  Future<List<String>> getList();
+  Future<List<FaunaMetaData>> getList();
 }
 
 class BirdsLocalDictionary extends BaseDictionary{

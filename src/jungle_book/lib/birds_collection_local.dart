@@ -5,11 +5,20 @@ import 'dart:convert';
 
 class BirdsLocalCollection extends FaunaCollectionBase {
   @override
-  Future<List<String>> GetList() async{
+  Future<List<FaunaMetaData>> GetList() async{
     var data = await readFile();
-    Map<String, dynamic> map = jsonDecode(data);
-    var result = FaunaMetaData.fromJson(map);
-    return [data];
+    final jsonResponse= jsonDecode(data);
+
+
+    Iterable l = json.decode(data);
+    List<FaunaMetaData> faunaCollection =  (jsonResponse as List)
+        .map((p) => FaunaMetaData.fromJson(p))
+        .toList();
+
+    faunaCollection.forEach((item)=>
+      print('name=${item.name},image=${item.imageFilePath}')
+    );
+    return faunaCollection;
   }
 
 

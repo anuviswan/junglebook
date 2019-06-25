@@ -1,14 +1,13 @@
-[
+[{
+	"name": "flamingo",
+	"image": "imagePath",
+	"audio": "audiopath",
+	"pronunciation": "pronunciationpath"
+},
 	{
-		'name':'flamingo',
-		'image':'imagePath',
-		'audio':'audiopath',
-		'pronunciation':'pronunciationpath'
-	},
-		{
-		'name':'parrot',
-		'image':'imagePath',
-		'audio':'audiopath',
-		'pronunciation':'pronunciationpath'
+		"name": "parrot",
+		"image": "imagePath",
+		"audio": "audiopath",
+		"pronunciation": "pronunciationpath"
 	}
 ]
