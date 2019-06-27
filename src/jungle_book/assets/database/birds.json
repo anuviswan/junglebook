@@ -1,12 +1,12 @@
 [{
 	"name": "flamingo",
-	"image": "imagePath",
+	"image": "\\assets\\images\\birds\\flamingo.jpg",
 	"audio": "audiopath",
 	"pronunciation": "pronunciationpath"
 },
 	{
-		"name": "parrot",
-		"image": "imagePath",
+		"name": "toucan",
+		"image": "\\assets\\images\\birds\\toucan.jpg",
 		"audio": "audiopath",
 		"pronunciation": "pronunciationpath"
 	}

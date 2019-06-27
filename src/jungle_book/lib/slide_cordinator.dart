@@ -101,8 +101,6 @@ class _SlideCordinatorState extends State<SlideCordinator> {
           default:
             return getOnSuccessWidget(context,snapshot);
         }
-
-        return new Text('sdsdsd');
       },
     );
 
