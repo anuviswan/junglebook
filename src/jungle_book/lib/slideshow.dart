@@ -9,6 +9,7 @@ class SlideShow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('animal = ${this.animalPath}');
     return new Image.asset(this.animalPath,
       fit: BoxFit.cover,
       alignment: Alignment.center,
