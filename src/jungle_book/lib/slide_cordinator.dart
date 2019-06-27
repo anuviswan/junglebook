@@ -38,8 +38,6 @@ class _SlideCordinatorState extends State<SlideCordinator> {
   @override
   void initState()
   {
-   //print('size${widget._animalList.length}');
-   // _currentAnimal = widget._animalList[currentIndex];
     super.initState();
   }
 
