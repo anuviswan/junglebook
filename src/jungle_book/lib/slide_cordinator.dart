@@ -17,7 +17,7 @@ class SlideCordinator extends StatefulWidget {
 
   Future<String> LoadFaunaCollection() async{
     _animalList = await this.baseDictionary.getList();
-    _currentAnimal = _animalList.first;
+    _currentAnimal = _animalList.last;
     return _currentAnimal.name;
   }
 
@@ -67,8 +67,8 @@ class _SlideCordinatorState extends State<SlideCordinator> {
           onHorizontalDragEnd: (DragEndDetails details){
             stop();
             setState(() {
-              currentIndex+=1;
-              widget._currentAnimal = widget._animalList.elementAt(currentIndex);
+              widget._animalList.removeLast();
+              widget._currentAnimal = widget._animalList.last;
             });
           },
         ),

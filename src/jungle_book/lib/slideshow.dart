@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'pathmanager.dart';
 import 'dictionary.dart';
 
 class SlideShow extends StatelessWidget {
