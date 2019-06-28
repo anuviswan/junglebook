@@ -16,7 +16,11 @@ class SlideCordinator extends StatefulWidget {
   }
 
   Future<String> LoadFaunaCollection() async{
-    _animalList = await this.baseDictionary.getList();
+
+    if(_animalList==null) {
+      _animalList = await this.baseDictionary.getList();
+    }
+
     _currentAnimal = _animalList.last;
     return _currentAnimal.name;
   }
