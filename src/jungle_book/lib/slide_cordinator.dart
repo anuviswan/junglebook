@@ -62,7 +62,8 @@ class _SlideCordinatorState extends State<SlideCordinator> {
         appBar: new AppBar(
           title: new Text('Jungle Book'),
           actions: <Widget>[
-            new IconButton(icon: new Icon(Icons.mic), onPressed: (){})
+            new IconButton(icon: new Icon(Icons.mic), onPressed: (){
+            })
           ],
         ),
         drawer: new AppMenu(),
@@ -87,11 +88,11 @@ class _SlideCordinatorState extends State<SlideCordinator> {
 
 
   Widget getOnError(BuildContext context, AsyncSnapshot snapshot){
-    return new Text('New Loading error');
+    return new Text('Error Loading');
   }
 
   Widget getOnLoading(BuildContext context, AsyncSnapshot snapshot){
-    return new Text('Loading');
+    return new CircularProgressIndicator();
   }
 
   @override
@@ -101,8 +102,8 @@ class _SlideCordinatorState extends State<SlideCordinator> {
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none: return new Text('Press button to start');
-          case ConnectionState.waiting: return new Text('Awaiting result...');
-          default:
+          case ConnectionState.waiting: return getOnLoading(context,snapshot);
+        default:
             return getOnSuccessWidget(context,snapshot);
         }
       },
@@ -110,3 +111,4 @@ class _SlideCordinatorState extends State<SlideCordinator> {
 
   }
 }
+
