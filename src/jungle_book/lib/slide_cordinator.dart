@@ -72,8 +72,14 @@ class _SlideCordinatorState extends State<SlideCordinator> {
           onHorizontalDragEnd: (DragEndDetails details){
             stop();
             setState(() {
-              widget._animalList.removeLast();
-              widget._currentAnimal = widget._animalList.last;
+
+              if(widget._animalList.length == 0){
+                Navigator.pop(context);
+              }
+              else {
+                widget._animalList.removeLast();
+                widget._currentAnimal = widget._animalList.last;
+              }
             });
           },
         ),
