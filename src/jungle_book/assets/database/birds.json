@@ -1,12 +1,43 @@
-[{
-	"name": "flamingo",
-	"image": "assets/images/birds/flamingo.jpg",
-	"audio": "audiopath",
-	"pronunciation": "pronunciationpath"
-},
+[
+	{
+		"name": "flamingo",
+		"image": "assets/images/birds/flamingo.jpg",
+		"audio": "audiopath",
+		"pronunciation": "pronunciationpath"
+	},
 	{
 		"name": "toucan",
 		"image": "assets/images/birds/toucan.jpg",
+		"audio": "audiopath",
+		"pronunciation": "pronunciationpath"
+	},
+	{
+		"name": "kingfisher",
+		"image": "assets/images/birds/kingfisher.jpg",
+		"audio": "audiopath",
+		"pronunciation": "pronunciationpath"
+	},
+	{
+		"name": "macaw",
+		"image": "assets/images/birds/macaw.jpg",
+		"audio": "audiopath",
+		"pronunciation": "pronunciationpath"
+	},
+	{
+		"name": "parrot",
+		"image": "assets/images/birds/parrot.jpg",
+		"audio": "audiopath",
+		"pronunciation": "pronunciationpath"
+	},
+	{
+		"name": "parrot",
+		"image": "assets/images/birds/parrot.jpg",
+		"audio": "audiopath",
+		"pronunciation": "pronunciationpath"
+	},
+	{
+		"name": "reedling",
+		"image": "assets/images/birds/reedling.jpg",
 		"audio": "audiopath",
 		"pronunciation": "pronunciationpath"
 	}
