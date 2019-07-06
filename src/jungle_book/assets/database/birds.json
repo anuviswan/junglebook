@@ -4,48 +4,48 @@
     "image": "assets/images/birds/flamingo.jpg",
     "audio": "audio/birds/flamingo.mp3",
     "pronunciation": "pronunciationpath",
-    "description": "description"
+    "interestingFact": "The color pink comes from beta-carotene in the crustaceans and plankton that flamingos eat"
   },
   {
     "name": "toucan",
     "image": "assets/images/birds/toucan.jpg",
     "audio": "audio/birds/toucan.mp3",
     "pronunciation": "pronunciationpath",
-    "description": "description"
+    "interestingFact": "description"
   },
   {
     "name": "kingfisher",
     "image": "assets/images/birds/kingfisher.jpg",
     "audio": "audiopath",
     "pronunciation": "pronunciationpath",
-    "description": "description"
+    "interestingFact": "description"
   },
   {
     "name": "macaw",
     "image": "assets/images/birds/macaw.jpg",
     "audio": "audiopath",
     "pronunciation": "pronunciationpath",
-    "description": "description"
+    "interestingFact": "description"
   },
   {
     "name": "parrot",
     "image": "assets/images/birds/parrot.jpg",
     "audio": "audiopath",
     "pronunciation": "pronunciationpath",
-    "description": "description"
+    "interestingFact": "description"
   },
   {
     "name": "parrot",
     "image": "assets/images/birds/parrot.jpg",
     "audio": "audiopath",
     "pronunciation": "pronunciationpath",
-    "description": "description"
+    "interestingFact": "description"
   },
   {
     "name": "reedling",
     "image": "assets/images/birds/reedling.jpg",
     "audio": "audiopath",
     "pronunciation": "pronunciationpath",
-    "description": "description"
+    "interestingFact": "description"
   }
 ]
