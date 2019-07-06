@@ -3,49 +3,49 @@
     "name": "Flamingo",
     "image": "assets/images/birds/flamingo.jpg",
     "audio": "audio/birds/flamingo.mp3",
-    "pronunciation": "pronunciationpath",
+    "pronunciation": "pronounce/birds/flamingo.mp3",
     "interestingFact": "The color pink comes from beta-carotene in the crustaceans and plankton that flamingos eat"
   },
   {
     "name": "toucan",
     "image": "assets/images/birds/toucan.jpg",
     "audio": "audio/birds/toucan.mp3",
-    "pronunciation": "pronunciationpath",
+    "pronunciation": "pronounce/birds/toucan.mp3",
     "interestingFact": "description"
   },
   {
     "name": "kingfisher",
     "image": "assets/images/birds/kingfisher.jpg",
-    "audio": "audiopath",
-    "pronunciation": "pronunciationpath",
+    "audio": "audio/birds/kingfisher.mp3",
+    "pronunciation":"pronounce/birds/kingfisher.mp3",
     "interestingFact": "description"
   },
   {
     "name": "macaw",
     "image": "assets/images/birds/macaw.jpg",
-    "audio": "audiopath",
-    "pronunciation": "pronunciationpath",
+    "audio": "audio/birds/macaw.mp3",
+    "pronunciation": "pronounce/birds/macaw.mp3",
     "interestingFact": "description"
   },
   {
     "name": "parrot",
     "image": "assets/images/birds/parrot.jpg",
-    "audio": "audiopath",
-    "pronunciation": "pronunciationpath",
-    "interestingFact": "description"
-  },
-  {
-    "name": "parrot",
-    "image": "assets/images/birds/parrot.jpg",
-    "audio": "audiopath",
-    "pronunciation": "pronunciationpath",
+    "audio": "audio/birds/parrot.mp3",
+    "pronunciation": "pronounce/birds/parrot.mp3",
     "interestingFact": "description"
   },
   {
     "name": "reedling",
     "image": "assets/images/birds/reedling.jpg",
-    "audio": "audiopath",
-    "pronunciation": "pronunciationpath",
+    "audio": "audio/birds/reedling.mp3",
+    "pronunciation": "pronounce/birds/reedling.mp3",
+    "interestingFact": "description"
+  },
+    {
+    "name": "Penguin",
+    "image": "assets/images/birds/penguin.jpg",
+    "audio": "audio/birds/penguin.mp3",
+    "pronunciation": "pronounce/birds/penguin.mp3",
     "interestingFact": "description"
   }
 ]
