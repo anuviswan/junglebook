@@ -7,6 +7,22 @@ import 'slideshow.dart';
 import 'dictionary.dart';
 import 'fauna_meta_data.dart';
 
+class Hint  extends StatelessWidget {
+  final String faunaName;
+  Hint.loadFauna({this.faunaName}):super();
+
+  @override
+  Widget build(BuildContext context) {
+    return new IconButton(icon: new Icon(Icons.help_outline), onPressed: (){
+final snackBar = SnackBar(content: Text('Thats a $faunaName'));
+
+// Find the Scaffold in the widget tree and use it to show a SnackBar.
+Scaffold.of(context).showSnackBar(snackBar);
+});
+  }
+}
+
+
 class SlideCordinator extends StatefulWidget {
   final BaseDictionary baseDictionary;
   List<FaunaMetaData> _animalList;
@@ -25,10 +41,7 @@ class SlideCordinator extends StatefulWidget {
     return _currentAnimal.name;
   }
 
-  void _loadFunaList()
-  {
-    this.baseDictionary.getList().then((data){_animalList = data;  _currentAnimal = _animalList.first; print(_currentAnimal.name); });
-  }
+
 
   @override
   _SlideCordinatorState createState() => _SlideCordinatorState();
@@ -55,6 +68,8 @@ class _SlideCordinatorState extends State<SlideCordinator> {
     super.initState();
   }
 
+
+
   Widget getOnSuccessWidget(BuildContext context, AsyncSnapshot snapshot){
     return MaterialApp(
       title: 'Jungle Book',
@@ -63,9 +78,11 @@ class _SlideCordinatorState extends State<SlideCordinator> {
           title: new Text('Jungle Book'),
           actions: <Widget>[
             new IconButton(icon: new Icon(Icons.mic), onPressed: (){
-            })
+            }),
+            new Hint.loadFauna(faunaName: widget._currentAnimal.name,),
           ],
         ),
+
         drawer: new AppMenu(),
         body: new GestureDetector(
           child: new SlideShow(animalPath: widget._currentAnimal.imageFilePath),
@@ -88,7 +105,7 @@ class _SlideCordinatorState extends State<SlideCordinator> {
           onPressed: (){
             play(widget.baseDictionary.getCryAudioFilePath(widget._currentAnimal.cryAudioFilePath));
           },
-          child: new Icon(Icons.navigate_next),),
+          child: new Icon(Icons.volume_up),),
       ),
     );
   }
