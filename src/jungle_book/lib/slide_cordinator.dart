@@ -66,7 +66,7 @@ class _SlideCordinatorState extends State<SlideCordinator> {
           actions: <Widget>[
             new IconButton(icon: new Icon(Icons.mic), onPressed: (){
             }),
-            new Hint.loadFauna(faunaName: widget._currentAnimal.name,),
+            new Hint.loadFauna(faunaName: widget._currentAnimal.name,description: widget._currentAnimal.description,),
           ],
         ),
 
