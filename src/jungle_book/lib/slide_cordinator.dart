@@ -70,17 +70,18 @@ class _SlideCordinatorState extends State<SlideCordinator> {
         body: new GestureDetector(
           child: new SlideShow(animalPath: widget._currentAnimal.imageFilePath),
           onHorizontalDragEnd: (DragEndDetails details){
-            stop();
-            setState(() {
 
-              if(widget._animalList.length == 0){
-                Navigator.pop(context);
-              }
-              else {
+            print('number of elemetns left ${widget._animalList.length}');
+            if(widget._animalList.length == 1){
+              Navigator.pop(context);
+            }
+            else {
+              stop();
+              setState(() {
                 widget._animalList.removeLast();
                 widget._currentAnimal = widget._animalList.last;
-              }
-            });
+              });
+            }
           },
         ),
         floatingActionButton: new FloatingActionButton(
