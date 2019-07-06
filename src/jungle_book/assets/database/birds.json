@@ -2,13 +2,13 @@
   {
     "name": "flamingo",
     "image": "assets/images/birds/flamingo.jpg",
-    "audio": "audiopath",
+    "audio": "audio/birds/flamingo.mp3",
     "pronunciation": "pronunciationpath"
   },
   {
     "name": "toucan",
     "image": "assets/images/birds/toucan.jpg",
-    "audio": "audiopath",
+    "audio": "audio/birds/toucan.mp3",
     "pronunciation": "pronunciationpath"
   },
   {

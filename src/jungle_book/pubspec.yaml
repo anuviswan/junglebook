@@ -42,6 +42,7 @@ flutter:
     - assets/images/animals/
     - assets/graphics/
     - assets/database/
+    - assets/audio/birds/
     - assets/
 
   # For details regarding adding assets from package dependencies, see

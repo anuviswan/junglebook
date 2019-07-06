@@ -90,7 +90,7 @@ class _SlideCordinatorState extends State<SlideCordinator> {
         ),
         floatingActionButton: new FloatingActionButton(
           onPressed: (){
-            play(widget.baseDictionary.getCryAudioFilePath(widget._currentAnimal.cryAudioFilePath));
+            play(widget._currentAnimal.cryAudioFilePath);
           },
           child: new Icon(Icons.volume_up),),
       ),
