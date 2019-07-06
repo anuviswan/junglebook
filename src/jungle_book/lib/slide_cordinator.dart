@@ -65,6 +65,7 @@ class _SlideCordinatorState extends State<SlideCordinator> {
           title: new Text('Jungle Book'),
           actions: <Widget>[
             new IconButton(icon: new Icon(Icons.mic), onPressed: (){
+              play(widget._currentAnimal.pronunciationFilePath);
             }),
             new Hint.loadFauna(faunaName: widget._currentAnimal.name,interestingFact: widget._currentAnimal.interestingFact,),
           ],

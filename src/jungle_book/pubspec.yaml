@@ -43,6 +43,7 @@ flutter:
     - assets/graphics/
     - assets/database/
     - assets/audio/birds/
+    - assets/pronounce/birds/
     - assets/
 
   # For details regarding adding assets from package dependencies, see
