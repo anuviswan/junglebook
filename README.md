@@ -5,4 +5,4 @@ Jungle Book is an Educational App, build with Flutter/Dart to introduce young mi
 **Screenshots**
 
 <img src="/screenshots/Home.png" alt="Home" width="300" height="600">
-<img src="/screenshots/slide.png" alt="Home" width="300" height="600">
+<img src="/screenshots/Slide.png" alt="Slide" width="300" height="600">
