@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'appmenu.dart';
 import 'slideshow.dart';
 import 'dictionary.dart';
 import 'fauna_meta_data.dart';
@@ -71,7 +70,6 @@ class _SlideCordinatorState extends State<SlideCordinator> {
           ],
         ),
 
-        drawer: new AppMenu(),
         body: new GestureDetector(
           child: new SlideShow(animalPath: widget._currentAnimal.imageFilePath),
           onHorizontalDragEnd: (DragEndDetails details){
