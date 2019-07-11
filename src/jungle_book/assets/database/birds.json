@@ -7,45 +7,45 @@
     "interestingFact": "The color pink comes from beta-carotene in the crustaceans and plankton that flamingos eat"
   },
   {
-    "name": "toucan",
+    "name": "Toucan",
     "image": "assets/images/birds/toucan.jpg",
     "audio": "audio/birds/toucan.mp3",
     "pronunciation": "pronounce/birds/toucan.mp3",
-    "interestingFact": "description"
+    "interestingFact": "Toucan have the longest bill of any bird in the world in relation to their body size"
   },
   {
-    "name": "kingfisher",
+    "name": "Kingfisher",
     "image": "assets/images/birds/kingfisher.jpg",
     "audio": "audio/birds/kingfisher.mp3",
     "pronunciation":"pronounce/birds/kingfisher.mp3",
-    "interestingFact": "description"
+    "interestingFact": "Kingfisher are most famous for hunting and eating fish but they also eat insects,spiders etc,"
   },
   {
-    "name": "macaw",
+    "name": "Macaw",
     "image": "assets/images/birds/macaw.jpg",
     "audio": "audio/birds/macaw.mp3",
     "pronunciation": "pronounce/birds/macaw.mp3",
-    "interestingFact": "description"
+    "interestingFact": "Macaws are the largest type of parrot and could live 60-80 years"
   },
   {
-    "name": "parrot",
+    "name": "Parrot",
     "image": "assets/images/birds/parrot.jpg",
     "audio": "audio/birds/parrot.mp3",
     "pronunciation": "pronounce/birds/parrot.mp3",
-    "interestingFact": "description"
+    "interestingFact": "Parrots are known for imitating human voices."
   },
   {
-    "name": "reedling",
+    "name": "Bearded Reedling",
     "image": "assets/images/birds/reedling.jpg",
     "audio": "audio/birds/reedling.mp3",
     "pronunciation": "pronounce/birds/reedling.mp3",
-    "interestingFact": "description"
+    "interestingFact": "They eat insects in the summer, but feed on seeds in the autumn"
   },
     {
     "name": "Penguin",
     "image": "assets/images/birds/penguin.jpg",
     "audio": "audio/birds/penguin.mp3",
     "pronunciation": "pronounce/birds/penguin.mp3",
-    "interestingFact": "description"
+    "interestingFact": "Penguins are flightless birds and use their wings(flippers) to help them swim in the water."
   }
 ]
