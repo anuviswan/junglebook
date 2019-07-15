@@ -73,7 +73,12 @@ class _SlideCordinatorState extends State<SlideCordinator> {
         body: new GestureDetector(
           child: new SlideShow(animalPath: widget._currentAnimal.imageFilePath),
           onHorizontalDragEnd: (DragEndDetails details){
+            play(widget._currentAnimal.cryAudioFilePath);
 
+          },
+        ),
+        floatingActionButton: new FloatingActionButton(
+          onPressed: (){
             print('number of elemetns left ${widget._animalList.length}');
             if(widget._animalList.length == 1){
               Navigator.pop(context);
@@ -86,12 +91,7 @@ class _SlideCordinatorState extends State<SlideCordinator> {
               });
             }
           },
-        ),
-        floatingActionButton: new FloatingActionButton(
-          onPressed: (){
-            play(widget._currentAnimal.cryAudioFilePath);
-          },
-          child: new Icon(Icons.volume_up),),
+          child: new Icon(Icons.arrow_forward),),
       ),
     );
   }
