@@ -12,7 +12,7 @@ export default {
 };
 </script>
 
-<style scopped>
+<style scoped>
 .logo {
   color: white;
   font-family: "Eczar";
