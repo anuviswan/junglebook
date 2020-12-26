@@ -8,7 +8,7 @@
     <v-row>
       <v-col justify="center">
         <v-layout justify-center>
-          <v-btn fab large color="white" outlined>
+          <v-btn fab large color="white" outlined to="/home">
             <v-icon color="white">
               mdi-login
             </v-icon>
