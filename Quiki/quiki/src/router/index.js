@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LandingPage from "../components/LandingPage"
 import Home from "../components/Home"
+import ImageQuestion from "../components/ImageQuestion"
 Vue.use(VueRouter)
 
 const routes = [
@@ -14,6 +15,11 @@ const routes = [
     path: '/home',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/q',
+    name: 'question',
+    component: ImageQuestion
   },
  
 ]
