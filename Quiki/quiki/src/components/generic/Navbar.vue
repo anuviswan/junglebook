@@ -18,7 +18,7 @@ export default {
 .logo {
   color: white;
   font-family: "Eczar";
-  font-size: 1vw;
+  font-size: 2vw;
   font-weight: bold;
   font-style: italic;
   text-align: center;
