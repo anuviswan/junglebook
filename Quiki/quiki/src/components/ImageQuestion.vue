@@ -3,14 +3,19 @@
     <Navbar />
     <v-row>
       <v-col>
-        <v-card class="tile" color="#1976D2" dark justify="center">
-          <v-container fill-height fluid pa-2>
-            <v-img
-              v-bind:src="imageUrl"
-              max-height="80vh"
-              contain="false"
-            ></v-img>
-          </v-container>
+        <v-card class="mx-auto" elevation="12" raised max-width="95vw">
+          <v-img height="70vh" v-bind:src="imageUrl" contain> </v-img>
+          <v-card-title>{{ this.title }}</v-card-title>
+          <v-divider />
+          <v-card-subtitle class="pb-0">
+            {{ this.description }}
+          </v-card-subtitle>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn color="primary darken-2" text rounded depressed>
+              Next
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -28,6 +33,8 @@ export default {
   data() {
     return {
       imageUrl: "",
+      title: "Unknown",
+      description: "",
     };
   },
   created() {

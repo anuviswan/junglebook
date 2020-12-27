@@ -27,7 +27,7 @@ const getItemsForCategory = (category)=>{
     {
         type:'image',
         key: 'Macow',
-        url:'https://thumbs.dreamstime.com/z/macow-parrot-66772.jpg',
+        url:'http://www.baltana.com/files/wallpapers-6/Scarlet-Macaw-HD-Wallpaper-20366.jpg',
     }];
 }
 
