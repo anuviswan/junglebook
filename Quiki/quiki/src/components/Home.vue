@@ -10,7 +10,13 @@
               :key="category.tile"
               size="6"
             >
-              <v-card class="tile" color="#1976D2" dark justify="center">
+              <v-card
+                class="tile"
+                color="#1976D2"
+                dark
+                justify="center"
+                to="/q"
+              >
                 <v-container fill-height fluid pa-2>
                   <v-layout fill-height align-center justify-center>
                     <i v-bind:class="category.icon" aria-hidden="true"
@@ -51,11 +57,11 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .tile {
   color: blue;
   font-weight: bold;
   text-align: center;
-  height: 15vw;
+  height: 15vh;
 }
 </style>
