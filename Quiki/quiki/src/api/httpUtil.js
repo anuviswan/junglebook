@@ -1,3 +1,5 @@
+import store from "../store/index"
+
 const getCategories = ()=>{
     return [
         {
@@ -18,6 +20,9 @@ const getCategories = ()=>{
 
 const getItemsForCategory = (category)=>{
 
+    console.log("Attempting to update store")
+    // store.dispatch('updateCategory','something')
+    console.log(store.getters.currentCategory)
     console.log(category);
     return[{
         type:'image',
@@ -34,6 +39,10 @@ const getItemsForCategory = (category)=>{
 
 const getRandomItem = (category) =>{
     const items = getItemsForCategory(category);
+    store.dispatch('AddToCache',{
+        categoryName:category,
+        values:items
+    });
     var item = items[Math.floor(Math.random() * items.length)];
     return item;
 }

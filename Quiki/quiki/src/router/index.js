@@ -17,7 +17,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/q',
+    path: '/q/:category',
     name: 'question',
     component: ImageQuestion
   },

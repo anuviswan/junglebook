@@ -25,6 +25,7 @@
 <script>
 import { getRandomItem } from "../api/httpUtil";
 import Navbar from "../components/generic/Navbar";
+import { mapActions } from "vuex";
 export default {
   name: "ImageQuestion",
   components: {
@@ -35,10 +36,16 @@ export default {
       imageUrl: "",
       title: "Unknown",
       description: "",
+      categoryId: "",
     };
   },
+  methods: {
+    ...mapActions(["updateCategory"]),
+  },
   created() {
-    var item = getRandomItem("birds");
+    this.categoryId = this.$route.params.category;
+    this.updateCategory(this.categoryId);
+    var item = getRandomItem(this.categoryId);
     console.log(item);
     this.imageUrl = item.url;
     console.log(this.imageUrl);
