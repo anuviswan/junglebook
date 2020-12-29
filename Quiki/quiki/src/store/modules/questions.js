@@ -13,8 +13,6 @@ const actions = {
         commit("updateCategory",categoryName);
     },
     AddToCache({commit},categoryMetaInfo){
-        console.log('here');
-        console.log(categoryMetaInfo);
         commit("updateQuestionCache",categoryMetaInfo)
     }
 }

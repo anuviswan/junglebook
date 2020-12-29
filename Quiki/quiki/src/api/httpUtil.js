@@ -1,5 +1,5 @@
 import store from "../store/index"
-
+import axios from "axios"
 const getCategories = ()=>{
     return [
         {
@@ -18,27 +18,42 @@ const getCategories = ()=>{
 }
 
 
-const getItemsForCategory = (category)=>{
+const getItemsForCategory = async (category)=>{
 
-    console.log("Attempting to update store")
-    // store.dispatch('updateCategory','something')
-    console.log(store.getters.currentCategory)
-    console.log(category);
-    return[{
-        type:'image',
-        key: 'Parrot',
-        url:'https://thumbs.dreamstime.com/z/macow-parrot-66772.jpg',
-    },
+    const fromCache = store.getters.questionCache.filter(e => e.categoryName === category);
+
+    if(fromCache.length > 0)
     {
-        type:'image',
-        key: 'Macow',
-        url:'http://www.baltana.com/files/wallpapers-6/Scarlet-Macaw-HD-Wallpaper-20366.jpg',
-    }];
+        return fromCache;
+    }
+
+    var params = {
+        params:{
+            appName:'quiki',
+            categoryName:category   
+        }
+         
+    };
+    var response = await axios.get('http://localhost:7071/api/item/getall',params);
+    const result = response.data.map(item=>{
+        const serializedData = JSON.parse(item.value);
+
+        return {
+            type: serializedData.type,
+            url: serializedData.url,
+            key: serializedData.key
+        };
+    });
+
+
+    return result;
+
 }
 
 
-const getRandomItem = (category) =>{
-    const items = getItemsForCategory(category);
+const getRandomItem = async (category) =>{
+
+    const items = await getItemsForCategory(category);
     store.dispatch('AddToCache',{
         categoryName:category,
         values:items

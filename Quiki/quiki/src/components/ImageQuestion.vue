@@ -42,12 +42,13 @@ export default {
   methods: {
     ...mapActions(["updateCategory"]),
   },
-  created() {
+  async created() {
     this.categoryId = this.$route.params.category;
     this.updateCategory(this.categoryId);
-    var item = getRandomItem(this.categoryId);
-    console.log(item);
+    const item = await getRandomItem(this.categoryId);
     this.imageUrl = item.url;
+    this.title = item.key;
+    this.description = "Nothing";
     console.log(this.imageUrl);
   },
 };
