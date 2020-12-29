@@ -13,17 +13,15 @@ const actions = {
         commit("updateCategory",categoryName);
     },
     AddToCache({commit},categoryMetaInfo){
-        console.log(categoryMetaInfo.values)
-        commit["updateQuestionCache",{
-            category: categoryMetaInfo.categoryName,
-            questions: categoryMetaInfo.values
-        }]
+        console.log('here');
+        console.log(categoryMetaInfo);
+        commit("updateQuestionCache",categoryMetaInfo)
     }
 }
 
 const mutations = {
     updateCategory: (state,category) => (state.currentCategory = category),
-    updateQuestionCache:(state,value) => (state.questionCache.push(...value))
+    updateQuestionCache:(state,question) => (state.questionCache.push(question))
 };
 
 export default{
