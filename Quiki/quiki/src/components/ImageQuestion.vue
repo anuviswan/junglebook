@@ -4,7 +4,7 @@
     <v-row>
       <v-col>
         <v-card class="mx-auto" elevation="12" raised max-width="95vw">
-          <v-img height="70vh" v-bind:src="imageUrl" contain> </v-img>
+          <v-img height="70vh" v-bind:src="getImageUrl" contain> </v-img>
           <v-card-title>{{ this.title }}</v-card-title>
           <v-divider />
           <v-card-subtitle class="pb-0">
@@ -36,6 +36,12 @@ export default {
   name: "ImageQuestion",
   components: {
     Navbar,
+  },
+  computed: {
+    getImageUrl() {
+      console.log("computing new url");
+      return this.imageUrl;
+    },
   },
   data() {
     return {
