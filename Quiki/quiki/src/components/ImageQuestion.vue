@@ -12,7 +12,13 @@
           </v-card-subtitle>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="primary darken-2" text rounded depressed>
+            <v-btn
+              color="primary darken-2"
+              text
+              rounded
+              depressed
+              @click.prevent="nextQuestion"
+            >
               Next
             </v-btn>
           </v-card-actions>
@@ -41,6 +47,14 @@ export default {
   },
   methods: {
     ...mapActions(["updateCategory"]),
+    async nextQuestion() {
+      const item = await getRandomItem(this.categoryId);
+      console.log(item);
+      this.imageUrl = item.url;
+      this.title = item.key;
+      this.description = "Nothing";
+      console.log(this.imageUrl);
+    },
   },
   async created() {
     this.categoryId = this.$route.params.category;

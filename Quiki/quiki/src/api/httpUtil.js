@@ -24,7 +24,8 @@ const getItemsForCategory = async (category)=>{
 
     if(fromCache.length > 0)
     {
-        return fromCache;
+        console.log(fromCache[0])
+        return fromCache[0].values;
     }
 
     var params = {
@@ -45,6 +46,10 @@ const getItemsForCategory = async (category)=>{
         };
     });
 
+    store.dispatch('AddToCache',{
+        categoryName:category,
+        values:result
+    });
 
     return result;
 
@@ -54,10 +59,6 @@ const getItemsForCategory = async (category)=>{
 const getRandomItem = async (category) =>{
 
     const items = await getItemsForCategory(category);
-    store.dispatch('AddToCache',{
-        categoryName:category,
-        values:items
-    });
     var item = items[Math.floor(Math.random() * items.length)];
     return item;
 }
