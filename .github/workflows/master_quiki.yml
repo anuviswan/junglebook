@@ -25,12 +25,11 @@ jobs:
         npm install
         npm run build --if-present
         npm run test --if-present
-      working-directory: Quiki/quiki
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'quiki'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_11b032aa88fe4daaab4ba71db24a3716 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_86bd3050cda349bfbd666286f461d54b }}
         package: .
