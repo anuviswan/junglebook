@@ -15,7 +15,7 @@
                 color="#1976D2"
                 dark
                 justify="center"
-                to="/q"
+                v-bind:to="`/q/${category.title}`"
               >
                 <v-container fill-height fluid pa-2>
                   <v-layout fill-height align-center justify-center>
