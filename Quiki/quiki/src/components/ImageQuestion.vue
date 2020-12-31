@@ -58,7 +58,7 @@ export default {
       console.log(item);
       this.imageUrl = item.url;
       this.title = item.key;
-      this.description = "Nothing";
+      this.description = item.description;
       console.log(this.imageUrl);
     },
   },
