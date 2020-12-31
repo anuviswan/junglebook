@@ -8,7 +8,7 @@
       </div>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn icon to="/home">
+    <v-btn icon to="/home" plain color="white">
       <v-icon>mdi-home</v-icon>
     </v-btn>
   </v-app-bar>
