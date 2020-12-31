@@ -35,7 +35,7 @@ const getItemsForCategory = async (category)=>{
         }
          
     };
-    var response = await axios.get('http://localhost:7071/api/item/getall',params);
+    var response = await axios.get(process.env.VUE_APP_APIGETFORCATEGORY,params);
     const result = response.data.map(item=>{
         const serializedData = JSON.parse(item.value);
 
