@@ -42,7 +42,8 @@ const getItemsForCategory = async (category)=>{
         return {
             type: serializedData.type,
             url: serializedData.url,
-            key: serializedData.key
+            key: serializedData.key,
+            description:serializedData.description
         };
     });
 
