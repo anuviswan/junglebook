@@ -43,7 +43,8 @@ const getItemsForCategory = async (category)=>{
             type: serializedData.type,
             url: serializedData.url,
             key: serializedData.key,
-            description:serializedData.description
+            description:serializedData.description,
+            funfact:serializedData.funfact
         };
     });
 

@@ -6,10 +6,15 @@
         <v-card class="mx-auto" elevation="12" raised max-width="95vw">
           <v-img height="70vh" v-bind:src="getImageUrl" contain> </v-img>
           <v-card-title>{{ this.title }}</v-card-title>
-          <v-divider />
-          <v-card-subtitle class="pb-0">
+          <v-divider v-if="description" />
+          <v-card-subtitle class="pb-0" v-if="description">
             {{ this.description }}
           </v-card-subtitle>
+          <v-divider v-if="funfact" />
+          <v-card-subtitle class="pb-0" v-if="funfact">
+            {{ this.funfact }}
+          </v-card-subtitle>
+          <v-divider />
           <v-card-actions>
             <v-spacer />
             <v-btn
@@ -49,6 +54,7 @@ export default {
       title: "Unknown",
       description: "",
       categoryId: "",
+      funfact: "",
     };
   },
   methods: {
@@ -68,7 +74,8 @@ export default {
     const item = await getRandomItem(this.categoryId);
     this.imageUrl = item.url;
     this.title = item.key;
-    this.description = "Nothing";
+    this.description = item.description;
+    this.funfact = item.funfact;
     console.log(this.imageUrl);
   },
 };
