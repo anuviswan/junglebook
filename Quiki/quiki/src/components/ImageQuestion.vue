@@ -67,24 +67,19 @@ export default {
       this.description = item.description;
       console.log(this.imageUrl);
     },
-    resetFields() {
-      this.imageUrl = "";
-      this.title = "Unknown";
-      this.description = "";
-      this.categoryId = "";
-      this.funfact = "";
-    },
   },
   async created() {
     this.categoryId = this.$route.params.category;
     this.updateCategory(this.categoryId);
-    this.resetFields();
     const item = await getRandomItem(this.categoryId);
+    console.log(item);
+
     this.imageUrl = item.url;
     this.title = item.key;
     this.description = item.description;
     this.funfact = item.funfact;
     console.log(this.imageUrl);
+    console.log(this.funfact);
   },
 };
 </script>
