@@ -65,6 +65,7 @@ export default {
       this.imageUrl = item.url;
       this.title = item.key;
       this.description = item.description;
+      this.funfact = item.funfact;
       console.log(this.imageUrl);
     },
   },
