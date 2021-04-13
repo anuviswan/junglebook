@@ -65,8 +65,29 @@ const getRandomItem = async (category) =>{
     var item = items[Math.floor(Math.random() * items.length)];
     return item;
 }
+
+
+const validate = async(userName,password) =>{
+
+    const params = {
+        'uid':userName,
+        'appName':"junglebook",
+        'passKey':password
+    };
+
+    console.log(params);
+    console.log(process.env.VUE_APP_VALIDATE)
+    const response = await axios.post(process.env.VUE_APP_VALIDATE,params);
+    console.log(response);
+    return {
+        result:false,
+        uid:userName,
+        pkey: password
+    }
+}
 export {
     getCategories,
     getItemsForCategory,
-    getRandomItem
+    getRandomItem,
+    validate
 }

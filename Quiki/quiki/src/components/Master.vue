@@ -7,23 +7,25 @@
             <v-toolbar-title>Admin Panel</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-form>
+            <v-form v-on:submit.prevent="onSubmit">
               <v-text-field
                 prepend-icon="mdi-account"
                 name="login"
+                v-model="userName"
                 type="text"
               ></v-text-field>
               <v-text-field
                 id="password"
                 prepend-icon="mdi-lock"
                 name="password"
+                v-model="passKey"
                 type="password"
               ></v-text-field>
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" to="/">Login</v-btn>
+            <v-btn color="primary" @click="onSubmit">Login</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -32,9 +34,24 @@
 </template>
 
 <script>
+import { validate } from "../api/httpUtil";
 export default {
   name: "Master",
-  created() {},
+  data() {
+    return {
+      userName: "",
+      passKey: "",
+    };
+  },
+  methods: {
+    async onSubmit(e) {
+      e.preventDefault();
+      var response = await validate(this.userName, this.passKey);
+      if (response.userAuthentication) {
+        this.$router.push("./dashboard");
+      }
+    },
+  },
 };
 </script>
 
