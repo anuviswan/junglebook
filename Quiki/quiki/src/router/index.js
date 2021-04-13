@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import LandingPage from "../components/LandingPage"
 import Home from "../components/Home"
 import ImageQuestion from "../components/ImageQuestion"
+import Master from "../components/Master"
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,6 +16,11 @@ const routes = [
     path: '/home',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/m/p/master',
+    name: 'login',
+    component: Master
   },
   {
     path: '/q/:category',
