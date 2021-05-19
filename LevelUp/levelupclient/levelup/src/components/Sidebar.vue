@@ -1,5 +1,9 @@
 <template>
-  <v-app-bar color="blue" dense></v-app-bar>
+  <v-card>
+    <v-app-bar color="blue" dense dark>
+      <v-toolbar-title color="white">Nikathil Treasure Hunt</v-toolbar-title>
+    </v-app-bar>
+  </v-card>
 </template>
 
 <script>
