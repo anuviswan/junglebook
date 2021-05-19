@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import { getLeaderBoard } from "../api/user";
+
 export default {
   name: "Leaderboard",
   data() {
@@ -78,6 +80,20 @@ export default {
         },
       ],
     };
+  },
+  async created() {
+    const results = await getLeaderBoard();
+
+    this.participants = results.data.map((item) => {
+      const participant = {
+        "userName": item.userName,
+        "level": item.level,
+        "rank": item.rank,
+      };
+
+      return participant;
+    });
+    console.log(results.data);
   },
 };
 </script>

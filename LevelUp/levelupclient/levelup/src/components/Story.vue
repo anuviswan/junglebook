@@ -1,6 +1,6 @@
 <template>
   <v-card color="grey lighten-2">
-    <v-contianer>
+    <v-container>
       <v-row>
         <v-col class="font-weight-bold">THE STORY</v-col>
       </v-row>
@@ -19,12 +19,13 @@
           places across the land that raised between Gokarana and Kanyakumari
           when Parushuram threw his blood stained axe. And years later, the
           treasure still lies undiscovered. Now its your chance to rediscover
-          the treasure. Do you have it in you to uncover the hidden clues and
-          discover the great treasure ?? Join the mordern day warrior's as they
-          make their quest to unearth the treasure.</v-col
+          the riches of Kochi's glory days. Do you have it in you to uncover the
+          hidden clues and discover the great treasure ?? Join the mordern day
+          warrior's as they make their quest to unearth the hidden
+          treasure.</v-col
         >
       </v-row>
-    </v-contianer>
+    </v-container>
   </v-card>
 </template>
 
