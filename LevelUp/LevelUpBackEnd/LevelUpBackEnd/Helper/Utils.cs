@@ -13,6 +13,7 @@ namespace LevelUpBackEnd.Helper
         public const string Key_FileToken = "FileToken";
 
         public const string FunctionName_GetNextQuestion = "GetNextQuestion";
+        public const string FunctionName_GetScores = "GetScores";
 
         public const string App_Parition = "AppMetadata";
         public const string Category_Partition_Key_Suffix = "CategoryName";

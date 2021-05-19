@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using LevelUpBackEnd.Dto;
 using LevelUpBackEnd.Entities;
@@ -59,5 +60,33 @@ namespace LevelUpBackEnd
 
             return new OkObjectResult(responseMessage);
         }
+
+
+        [FunctionName(Utils.FunctionName_GetScores)]
+        public static async Task<IActionResult> GetScores(
+            [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethods.Post), Route = null)] HttpRequest req,
+            [Table(Utils.Table_Name)] CloudTable tableEntity,
+            ILogger log)
+        {
+            await tableEntity.CreateIfNotExistsAsync();
+            var query = new TableQuery<UserEntity>();
+            query.FilterString = TableQuery.GenerateFilterCondition(nameof(UserEntity.PartitionKey), QueryComparisons.Equal, Utils.Key_User);
+            var tableContinuation = default(TableContinuationToken);
+            var response = await tableEntity.ExecuteQuerySegmentedAsync(query, tableContinuation);
+
+            var results = response.Results;
+
+            var sortedfResults = results.OrderByDescending(x => x.CurrentLevel)
+                                        .ThenByDescending(x => x.LastUpdated)
+                                        .Select((x,index)=> new 
+                                        {
+                                            UserName = x.UserName,
+                                            Level = x.CurrentLevel,
+                                            Rank = index + 1
+                                        });
+            return new OkObjectResult(sortedfResults);
+        }
+
+
     }
 }
