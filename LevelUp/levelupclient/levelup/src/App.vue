@@ -1,13 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer app>
-      <!-- -->
-    </v-navigation-drawer>
-
-    <v-app-bar app>
-      <!-- -->
-    </v-app-bar>
-
+    <Sidebar />
     <!-- Sizes your content based upon application components -->
     <v-main>
       <!-- Provides the application the proper gutter -->
@@ -22,7 +15,14 @@
     </v-footer>
   </v-app>
 </template>
-
+<script>
+import Sidebar from "./components/Sidebar";
+export default {
+  components: { Sidebar },
+  // components: { Shell },
+  name: "App",
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
