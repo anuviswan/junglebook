@@ -15,17 +15,21 @@
               <thead>
                 <tr>
                   <th class="text-left">
+                    Rank
+                  </th>
+                  <th class="text-left">
                     User
                   </th>
                   <th class="text-left">
-                    Rank
+                    Level
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="item in participants" :key="item.name">
-                  <td class="text-left">{{ item.userName }}</td>
                   <td class="text-left">{{ item.rank }}</td>
+                  <td class="text-left">{{ item.userName }}</td>
+                  <td class="text-left">{{ item.level }}</td>
                 </tr>
               </tbody>
             </template>
@@ -45,26 +49,32 @@ export default {
         {
           userName: "sreena",
           rank: 1,
+          level: 1,
         },
         {
           userName: "anu",
           rank: 1,
+          level: 1,
         },
         {
           userName: "jia",
           rank: 1,
+          level: 1,
         },
         {
           userName: "naina",
           rank: 1,
+          level: 1,
         },
         {
           userName: "manu",
           rank: 1,
+          level: 1,
         },
         {
           userName: "praji",
           rank: 1,
+          level: 1,
         },
       ],
     };
