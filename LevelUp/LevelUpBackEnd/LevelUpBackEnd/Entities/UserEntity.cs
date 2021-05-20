@@ -8,7 +8,7 @@ namespace LevelUpBackEnd.Entities
     public class UserEntity : TableEntity
     {
         public string UserName { get; set; }
-        public int CurrentLevel { get; set; }
+        public int Level { get; set; }
         public DateTime LastUpdated { get; set; }
     }
 }

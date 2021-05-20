@@ -17,12 +17,12 @@ namespace LevelUpBackEnd.Helper
             return newKey;
         }
 
-        public static async Task<KeyTableEntity> InitialiazeKeyPartition(this CloudTable tableEntity, string RowKey)
+        public static async Task<KeyTableEntity> InitialiazeKeyPartition(this CloudTable tableEntity, string rowKey)
         {
             var keyTable = new KeyTableEntity
             {
                 PartitionKey = Utils.Key_Partition,
-                RowKey = Utils.Key_User,
+                RowKey = rowKey,
                 Value = 1001,
                 ETag = "*"
             };
