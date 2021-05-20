@@ -36,12 +36,13 @@ namespace LevelUpBackEnd
             }
 
             await tableEntity.CreateIfNotExistsAsync();
-            var query = new TableQuery<UserEntity>();
-            query.FilterString = TableQuery.GenerateFilterCondition(nameof(UserEntity.UserName), QueryComparisons.Equal, data.UserName);
+            var userQuery = new TableQuery<UserEntity>();
+            userQuery.FilterString = TableQuery.GenerateFilterCondition(nameof(UserEntity.UserName), QueryComparisons.Equal, data.UserName);
             var tableContinuation = default(TableContinuationToken);
-            var response = await tableEntity.ExecuteQuerySegmentedAsync(query,tableContinuation);
+            var userResponse = await tableEntity.ExecuteQuerySegmentedAsync(userQuery,tableContinuation);
+            var currentLevel = 1;
 
-            if (response.Results.Count == 0)
+            if (userResponse.Results.Count == 0)
             {
                 var itemId = await tableEntity.GetNewKey(keyTable);
                 var item = new UserEntity
@@ -56,6 +57,16 @@ namespace LevelUpBackEnd
                 var addOperation = TableOperation.Insert(item);
                 var addResponse = await tableEntity.ExecuteAsync(addOperation);
             }
+            else
+            { 
+                currentLevel = userResponse.Results.First().Level; 
+            }
+
+            var questionQuery = new TableQuery<QuestionEntity>();
+            questionQuery.FilterString = TableQuery.GenerateFilterCondition(nameof(QuestionEntity.Level), QueryComparisons.Equal, currentLevel.ToString());
+            tableContinuation = default(TableContinuationToken);
+            var questionResponse = await tableEntity.ExecuteQuerySegmentedAsync(questionQuery, tableContinuation);
+
 
             string responseMessage = "User Found";
 

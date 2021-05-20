@@ -49,6 +49,7 @@ export default {
       this.updateCurrentUser({
         userName: this.userName,
       });
+      this.$router.push("question");
     },
   },
 };

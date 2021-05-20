@@ -18,6 +18,16 @@ const getLeaderBoard = async () => {
 };
 
 
+const getNextQuestion= async(userName)=>{
+  const config={
+    userName:userName
+  };
+
+  const response = await axios.post('http://localhost:7071/api/GetNextQuestion',config);
+  return response;
+}
+
+
 export {
-    getLeaderBoard
+    getLeaderBoard,getNextQuestion
 }
