@@ -124,9 +124,7 @@ namespace LevelUpBackEnd
             };
 
             var addOperation = TableOperation.Insert(item);
-            var addResponse = await tableEntity.ExecuteAsync(addOperation);
-
-            
+            var _ = await tableEntity.ExecuteAsync(addOperation);
 
             blobContainer.CreateIfNotExists();
             var fileExtension = new FileInfo(fileToUpload.FileName).Extension;
