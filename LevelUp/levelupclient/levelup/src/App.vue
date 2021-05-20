@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Sidebar />
+    <AppBar />
     <!-- Sizes your content based upon application components -->
     <v-main>
       <!-- Provides the application the proper gutter -->
@@ -16,9 +16,9 @@
   </v-app>
 </template>
 <script>
-import Sidebar from "./components/Sidebar";
+import AppBar from "./components/AppBar";
 export default {
-  components: { Sidebar },
+  components: { AppBar },
   // components: { Shell },
   name: "App",
 };

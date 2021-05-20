@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: "Sidebar",
+  name: "AppBar",
 };
 </script>
 
