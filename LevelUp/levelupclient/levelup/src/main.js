@@ -14,9 +14,7 @@ Vue.use(Vuetify);
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 axios.interceptors.request.use((request) => {
-  console.log("Adding header")
   const header = getHttpHeader();
-  console.log(header)
   request.headers = header;
   return request;
 });

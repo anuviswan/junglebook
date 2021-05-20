@@ -2,7 +2,6 @@ import store from "../store/index";
 
 const getHttpHeader = () => {
   
-  console.log("Adding CORS Header")
   const headers = {
     "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
     "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods

@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-form v-model="valid">
+    <v-form v-model="valid" @submit="onSubmit">
       <v-container>
         <v-row>
           <v-col cols="12">
@@ -12,7 +12,7 @@
         <v-row>
           <v-col cols="12" md="12">
             <v-text-field
-              v-model="firstname"
+              v-model="userName"
               :rules="nameRules"
               label="Username"
               required
@@ -20,7 +20,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col><v-btn color="blue" dark>Login</v-btn> </v-col>
+          <v-col><v-btn color="blue" type="submit" dark>Login</v-btn> </v-col>
         </v-row>
       </v-container>
     </v-form>
@@ -28,22 +28,29 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Login",
   data: () => ({
     valid: false,
-    firstname: "",
-    lastname: "",
+    userName: "",
     nameRules: [
       (v) => !!v || "Name is required",
       (v) => v.length <= 10 || "Name must be less than 10 characters",
     ],
-    email: "",
-    emailRules: [
-      (v) => !!v || "E-mail is required",
-      (v) => /.+@.+/.test(v) || "E-mail must be valid",
-    ],
   }),
+  methods: {
+    ...mapActions(["updateCurrentUser"]),
+    onSubmit(e) {
+      e.preventDefault();
+      console.log("submitting");
+      console.log(this.userName);
+      this.updateCurrentUser({
+        userName: this.userName,
+      });
+    },
+  },
 };
 </script>
 
