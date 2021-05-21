@@ -9,5 +9,6 @@ namespace LevelUpBackEnd.Entities
     {
         public int Level { get; set; }
         public string Answer { get; set; }
+        public string Url { get; set; }
     }
 }

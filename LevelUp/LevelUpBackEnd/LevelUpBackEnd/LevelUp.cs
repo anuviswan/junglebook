@@ -63,14 +63,19 @@ namespace LevelUpBackEnd
             }
 
             var questionQuery = new TableQuery<QuestionEntity>();
-            questionQuery.FilterString = TableQuery.GenerateFilterCondition(nameof(QuestionEntity.Level), QueryComparisons.Equal, currentLevel.ToString());
-            tableContinuation = default(TableContinuationToken);
-            var questionResponse = await tableEntity.ExecuteQuerySegmentedAsync(questionQuery, tableContinuation);
+            questionQuery.FilterString = TableQuery.CombineFilters(TableQuery.GenerateFilterConditionForInt(nameof(QuestionEntity.Level), QueryComparisons.Equal, currentLevel),
+                                                                   TableOperators.And,
+                                                                   TableQuery.GenerateFilterCondition(nameof(QuestionEntity.PartitionKey), QueryComparisons.Equal, Utils.Key_Question));
+            var questionContinuation = default(TableContinuationToken);
+            var questionResponse = await tableEntity.ExecuteQuerySegmentedAsync(questionQuery, questionContinuation);
+
+            var finalResult = new
+            {
+                QuestionUrl = questionResponse.First().Url
+            };
 
 
-            string responseMessage = "User Found";
-
-            return new OkObjectResult(responseMessage);
+            return new OkObjectResult(finalResult);
         }
 
 
@@ -122,6 +127,17 @@ namespace LevelUpBackEnd
                 keyTable = await tableEntity.InitialiazeKeyPartition(Utils.Key_Question);
             }
 
+            blobContainer.CreateIfNotExists();
+            var fileExtension = new FileInfo(fileToUpload.FileName).Extension;
+            var blobReference = default(CloudBlockBlob);
+
+            using (var stream = fileToUpload.OpenReadStream())
+            {
+                var fileName = $"{Guid.NewGuid()}{fileExtension}";
+                blobReference = blobContainer.GetBlockBlobReference(fileName);
+                await blobReference.UploadFromStreamAsync(stream);
+            }
+
 
             await tableEntity.CreateIfNotExistsAsync();
 
@@ -132,21 +148,12 @@ namespace LevelUpBackEnd
                 RowKey = itemId.ToString(),
                 Answer = data.Answer,
                 Level = data.Level,
+                Url = blobReference.Uri.ToString()
             };
 
             var addOperation = TableOperation.Insert(item);
             var _ = await tableEntity.ExecuteAsync(addOperation);
-
-            blobContainer.CreateIfNotExists();
-            var fileExtension = new FileInfo(fileToUpload.FileName).Extension;
-
-            using (var stream = fileToUpload.OpenReadStream())
-            {
-                var fileName = $"{itemId}.{fileExtension}";
-                var blobReference = blobContainer.GetBlockBlobReference(fileName);
-                await blobReference.UploadFromStreamAsync(stream);
-                return new OkObjectResult(new { Path = blobReference.Uri, QuestionId = itemId });
-            }
+            return new OkObjectResult(new { Path = blobReference.Uri, QuestionId = itemId });
         }
 
 
