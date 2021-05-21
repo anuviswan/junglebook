@@ -176,7 +176,11 @@ namespace LevelUpBackEnd
             var userResponse = await tableEntity.ExecuteQuerySegmentedAsync(userQuery, tableContinuation);
             var user = userResponse.First();
 
-            if (user.Level != data.Level) return new OkObjectResult("No cheating please");
+            if (user.Level != data.Level) return new OkObjectResult(new ValidateAnswerResponse
+            {
+                Result = false,
+                Message = "Invalid Level Detected"
+            });
 
 
             await tableEntity.CreateIfNotExistsAsync();
@@ -188,17 +192,19 @@ namespace LevelUpBackEnd
             var questionResponse = await tableEntity.ExecuteQuerySegmentedAsync(questionQuery, questionContinuation);
             var question = questionResponse.First();
 
-            if (string.Equals(question.Answer, data.Answer, StringComparison.OrdinalIgnoreCase))
+            if (question.Answer.CompareAnswer(data.Answer))
             {
-                return new OkObjectResult(new
+                return new OkObjectResult(new ValidateAnswerResponse
                 {
-                    Result = true
+                    Result = true,
+                    Message = "Congrats, that is the correct answer"
                 });
             }
             else {
-                return new OkObjectResult(new
+                return new OkObjectResult(new ValidateAnswerResponse
                 {
-                    Result = false
+                    Result = false,
+                    Message = "Sorry,Wrong Answer !!"
                 });
             }
             
