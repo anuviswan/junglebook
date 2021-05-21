@@ -1,6 +1,9 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using LevelUpBackEnd.Dto;
 using LevelUpBackEnd.Entities;
@@ -23,6 +26,7 @@ namespace LevelUpBackEnd
             [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethods.Post), Route = null)] HttpRequest req,
             [Table(Utils.Table_Name, Utils.Key_Partition, Utils.Key_User)] KeyTableEntity keyTable,
             [Table(Utils.Table_Name)] CloudTable tableEntity,
+            [Blob(Utils.Blob_Container_Name)] CloudBlobContainer blobContainer,
             ILogger log)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
@@ -36,12 +40,13 @@ namespace LevelUpBackEnd
             }
 
             await tableEntity.CreateIfNotExistsAsync();
-            var query = new TableQuery<UserEntity>();
-            query.FilterString = TableQuery.GenerateFilterCondition(nameof(UserEntity.UserName), QueryComparisons.Equal, data.UserName);
+            var userQuery = new TableQuery<UserEntity>();
+            userQuery.FilterString = TableQuery.GenerateFilterCondition(nameof(UserEntity.UserName), QueryComparisons.Equal, data.UserName);
             var tableContinuation = default(TableContinuationToken);
-            var response = await tableEntity.ExecuteQuerySegmentedAsync(query,tableContinuation);
+            var userResponse = await tableEntity.ExecuteQuerySegmentedAsync(userQuery,tableContinuation);
+            var currentLevel = 1;
 
-            if (response.Results.Count == 0)
+            if (userResponse.Results.Count == 0)
             {
                 var itemId = await tableEntity.GetNewKey(keyTable);
                 var item = new UserEntity
@@ -56,11 +61,24 @@ namespace LevelUpBackEnd
                 var addOperation = TableOperation.Insert(item);
                 var addResponse = await tableEntity.ExecuteAsync(addOperation);
             }
+            else
+            { 
+                currentLevel = userResponse.Results.First().Level; 
+            }
 
-            string responseMessage = "User Found";
+            var questionQuery = new TableQuery<QuestionEntity>();
+            questionQuery.FilterString = TableQuery.CombineFilters(TableQuery.GenerateFilterConditionForInt(nameof(QuestionEntity.Level), QueryComparisons.Equal, currentLevel),
+                                                                   TableOperators.And,
+                                                                   TableQuery.GenerateFilterCondition(nameof(QuestionEntity.PartitionKey), QueryComparisons.Equal, Utils.Key_Question));
+            var questionContinuation = default(TableContinuationToken);
+            var questionResponse = await tableEntity.ExecuteQuerySegmentedAsync(questionQuery, questionContinuation);
 
-            return new OkObjectResult(responseMessage);
+            return new OkObjectResult(new
+            {
+                Url = questionResponse.First().Url
+            }); 
         }
+
 
 
         [FunctionName(Utils.FunctionName_GetScores)]
@@ -111,6 +129,17 @@ namespace LevelUpBackEnd
                 keyTable = await tableEntity.InitialiazeKeyPartition(Utils.Key_Question);
             }
 
+            blobContainer.CreateIfNotExists();
+            var fileExtension = new FileInfo(fileToUpload.FileName).Extension;
+            var blobReference = default(CloudBlockBlob);
+
+            using (var stream = fileToUpload.OpenReadStream())
+            {
+                var fileName = $"{Guid.NewGuid()}{fileExtension}";
+                blobReference = blobContainer.GetBlockBlobReference(fileName);
+                await blobReference.UploadFromStreamAsync(stream);
+            }
+
 
             await tableEntity.CreateIfNotExistsAsync();
 
@@ -121,23 +150,59 @@ namespace LevelUpBackEnd
                 RowKey = itemId.ToString(),
                 Answer = data.Answer,
                 Level = data.Level,
+                Url = blobReference.Uri.ToString(),
             };
 
             var addOperation = TableOperation.Insert(item);
             var _ = await tableEntity.ExecuteAsync(addOperation);
-
-            blobContainer.CreateIfNotExists();
-            var fileExtension = new FileInfo(fileToUpload.FileName).Extension;
-
-            using (var stream = fileToUpload.OpenReadStream())
-            {
-                var fileName = $"{itemId}.{fileExtension}";
-                var blobReference = blobContainer.GetBlockBlobReference(fileName);
-                await blobReference.UploadFromStreamAsync(stream);
-                return new OkObjectResult(new { Path = blobReference.Uri, QuestionId = itemId });
-            }
+            return new OkObjectResult(new { Path = blobReference.Uri, QuestionId = itemId });
         }
 
+
+
+        [FunctionName(Utils.FunctionName_ValidateAnswer)]
+        public static async Task<IActionResult> Validate(
+            [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethods.Post), Route = null)] HttpRequest req,
+            [Table(Utils.Table_Name)] CloudTable tableEntity,
+            ILogger log)
+        {
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var data = JsonConvert.DeserializeObject<ValidateAnswerRequest>(requestBody);
+
+            var userQuery = new TableQuery<UserEntity>();
+            userQuery.FilterString = TableQuery.GenerateFilterCondition(nameof(UserEntity.UserName), QueryComparisons.Equal, data.UserName);
+            var tableContinuation = default(TableContinuationToken);
+            var userResponse = await tableEntity.ExecuteQuerySegmentedAsync(userQuery, tableContinuation);
+            var user = userResponse.First();
+
+            if (user.Level != data.Level) return new OkObjectResult("No cheating please");
+
+
+            await tableEntity.CreateIfNotExistsAsync();
+            var questionQuery = new TableQuery<QuestionEntity>();
+            questionQuery.FilterString = TableQuery.CombineFilters(TableQuery.GenerateFilterConditionForInt(nameof(QuestionEntity.Level), QueryComparisons.Equal, data.Level),
+                                                                   TableOperators.And,
+                                                                   TableQuery.GenerateFilterCondition(nameof(QuestionEntity.PartitionKey), QueryComparisons.Equal, Utils.Key_Question));
+            var questionContinuation = default(TableContinuationToken);
+            var questionResponse = await tableEntity.ExecuteQuerySegmentedAsync(questionQuery, questionContinuation);
+            var question = questionResponse.First();
+
+            if (string.Equals(question.Answer, data.Answer, StringComparison.OrdinalIgnoreCase))
+            {
+                return new OkObjectResult(new
+                {
+                    Result = true
+                });
+            }
+            else {
+                return new OkObjectResult(new
+                {
+                    Result = false
+                });
+            }
+            
+        }
 
     }
 }
