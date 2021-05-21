@@ -194,6 +194,19 @@ namespace LevelUpBackEnd
 
             if (question.Answer.CompareAnswer(data.Answer))
             {
+                var userTableToUpdate = new UserEntity
+                {
+                    RowKey = user.RowKey,
+                    PartitionKey = user.PartitionKey,
+                    Level = data.Level + 1,
+                    LastUpdated = DateTime.Now,
+                    UserName = data.UserName,
+                    ETag = "*"
+                };
+
+                var updateOperation = TableOperation.Replace(userTableToUpdate);
+                var result = await tableEntity.ExecuteAsync(updateOperation);
+
                 return new OkObjectResult(new ValidateAnswerResponse
                 {
                     Result = true,
