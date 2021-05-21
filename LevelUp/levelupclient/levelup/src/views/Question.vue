@@ -12,6 +12,13 @@
         >
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <img
+          src="http://127.0.0.1:10000/devstoreaccount1/levelupimagestore/abc.jpg"
+        />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

@@ -1,6 +1,9 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using LevelUpBackEnd.Dto;
 using LevelUpBackEnd.Entities;
@@ -19,10 +22,11 @@ namespace LevelUpBackEnd
     public static class LevelUp
     {
         [FunctionName(Utils.FunctionName_GetNextQuestion)]
-        public static async Task<IActionResult> GetNextQuestion(
+        public static async Task<HttpResponseMessage> GetNextQuestion(
             [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethods.Post), Route = null)] HttpRequest req,
             [Table(Utils.Table_Name, Utils.Key_Partition, Utils.Key_User)] KeyTableEntity keyTable,
             [Table(Utils.Table_Name)] CloudTable tableEntity,
+            [Blob(Utils.Blob_Container_Name)] CloudBlobContainer blobContainer,
             ILogger log)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
@@ -69,15 +73,24 @@ namespace LevelUpBackEnd
             var questionContinuation = default(TableContinuationToken);
             var questionResponse = await tableEntity.ExecuteQuerySegmentedAsync(questionQuery, questionContinuation);
 
-            var finalResult = new
+            var blocReference = blobContainer.GetBlockBlobReference(questionResponse.First().Question);
+
+            using(var memStream = new MemoryStream())
             {
-                QuestionUrl = questionResponse.First().Url
-            };
-
-
-            return new OkObjectResult(finalResult);
+                await blocReference.DownloadToStreamAsync(memStream);
+                HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+                response.Content = new StreamContent(memStream);
+                response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpg");
+                return response;
+            }
+            //return new OkObjectResult(finalResult);
         }
 
+        private static byte[] ImageToByteArray(Image image)
+        {
+            ImageConverter converter = new ImageConverter();
+            return (byte[])converter.ConvertTo(image, typeof(byte[]));
+        }
 
         [FunctionName(Utils.FunctionName_GetScores)]
         public static async Task<IActionResult> GetScores(
@@ -148,7 +161,8 @@ namespace LevelUpBackEnd
                 RowKey = itemId.ToString(),
                 Answer = data.Answer,
                 Level = data.Level,
-                Url = blobReference.Uri.ToString()
+                Url = blobReference.Uri.ToString(),
+                Question = blobReference.Name
             };
 
             var addOperation = TableOperation.Insert(item);
