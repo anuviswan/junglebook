@@ -22,7 +22,7 @@ namespace LevelUpBackEnd
     public static class LevelUp
     {
         [FunctionName(Utils.FunctionName_GetNextQuestion)]
-        public static async Task<HttpResponseMessage> GetNextQuestion(
+        public static async Task<IActionResult> GetNextQuestion(
             [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethods.Post), Route = null)] HttpRequest req,
             [Table(Utils.Table_Name, Utils.Key_Partition, Utils.Key_User)] KeyTableEntity keyTable,
             [Table(Utils.Table_Name)] CloudTable tableEntity,
@@ -73,24 +73,13 @@ namespace LevelUpBackEnd
             var questionContinuation = default(TableContinuationToken);
             var questionResponse = await tableEntity.ExecuteQuerySegmentedAsync(questionQuery, questionContinuation);
 
-            var blocReference = blobContainer.GetBlockBlobReference(questionResponse.First().Question);
-
-            using(var memStream = new MemoryStream())
+            return new OkObjectResult(new
             {
-                await blocReference.DownloadToStreamAsync(memStream);
-                HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
-                response.Content = new StreamContent(memStream);
-                response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpg");
-                return response;
-            }
-            //return new OkObjectResult(finalResult);
+                Url = questionResponse.First().Url
+            }); 
         }
 
-        private static byte[] ImageToByteArray(Image image)
-        {
-            ImageConverter converter = new ImageConverter();
-            return (byte[])converter.ConvertTo(image, typeof(byte[]));
-        }
+
 
         [FunctionName(Utils.FunctionName_GetScores)]
         public static async Task<IActionResult> GetScores(
@@ -162,7 +151,6 @@ namespace LevelUpBackEnd
                 Answer = data.Answer,
                 Level = data.Level,
                 Url = blobReference.Uri.ToString(),
-                Question = blobReference.Name
             };
 
             var addOperation = TableOperation.Insert(item);
@@ -170,6 +158,51 @@ namespace LevelUpBackEnd
             return new OkObjectResult(new { Path = blobReference.Uri, QuestionId = itemId });
         }
 
+
+
+        [FunctionName(Utils.FunctionName_ValidateAnswer)]
+        public static async Task<IActionResult> Validate(
+            [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethods.Post), Route = null)] HttpRequest req,
+            [Table(Utils.Table_Name)] CloudTable tableEntity,
+            ILogger log)
+        {
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var data = JsonConvert.DeserializeObject<ValidateAnswerRequest>(requestBody);
+
+            var userQuery = new TableQuery<UserEntity>();
+            userQuery.FilterString = TableQuery.GenerateFilterCondition(nameof(UserEntity.UserName), QueryComparisons.Equal, data.UserName);
+            var tableContinuation = default(TableContinuationToken);
+            var userResponse = await tableEntity.ExecuteQuerySegmentedAsync(userQuery, tableContinuation);
+            var user = userResponse.First();
+
+            if (user.Level != data.Level) return new OkObjectResult("No cheating please");
+
+
+            await tableEntity.CreateIfNotExistsAsync();
+            var questionQuery = new TableQuery<QuestionEntity>();
+            questionQuery.FilterString = TableQuery.CombineFilters(TableQuery.GenerateFilterConditionForInt(nameof(QuestionEntity.Level), QueryComparisons.Equal, data.Level),
+                                                                   TableOperators.And,
+                                                                   TableQuery.GenerateFilterCondition(nameof(QuestionEntity.PartitionKey), QueryComparisons.Equal, Utils.Key_Question));
+            var questionContinuation = default(TableContinuationToken);
+            var questionResponse = await tableEntity.ExecuteQuerySegmentedAsync(questionQuery, questionContinuation);
+            var question = questionResponse.First();
+
+            if (string.Equals(question.Answer, data.Answer, StringComparison.OrdinalIgnoreCase))
+            {
+                return new OkObjectResult(new
+                {
+                    Result = true
+                });
+            }
+            else {
+                return new OkObjectResult(new
+                {
+                    Result = false
+                });
+            }
+            
+        }
 
     }
 }
