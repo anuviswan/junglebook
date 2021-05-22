@@ -27,7 +27,18 @@ const getNextQuestion= async(userName)=>{
   return response;
 }
 
+const validateAnswer = async (userName,level,answer)=>{
+  const config ={
+    userName:userName,
+    level : level,
+    answer:answer
+  };
+
+  const response = await axios.post('http://localhost:7071/api/Validate',config);
+  return response;
+}
+
 
 export {
-    getLeaderBoard,getNextQuestion
+    getLeaderBoard,getNextQuestion,validateAnswer
 }
