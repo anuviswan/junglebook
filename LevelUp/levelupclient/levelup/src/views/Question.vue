@@ -49,7 +49,7 @@
 
               <v-row v-if="isCorrectAnswer">
                 <v-col>
-                  <v-btn color="blue" dark click="OnSuccess"
+                  <v-btn color="blue" dark @click="onSuccess"
                     >Go to next level</v-btn
                   >
                 </v-col>
@@ -86,7 +86,7 @@ export default {
   computed: mapGetters(["currentUser"]),
   methods: {
     onSuccess() {
-      console.log("Success");
+      this.$router.go();
     },
     async onSubmit(e) {
       e.preventDefault();
