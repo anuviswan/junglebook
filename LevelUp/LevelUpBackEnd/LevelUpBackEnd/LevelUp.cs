@@ -179,7 +179,8 @@ namespace LevelUpBackEnd
             if (user.Level != data.Level) return new OkObjectResult(new ValidateAnswerResponse
             {
                 Result = false,
-                Message = "Invalid Level Detected"
+                Message = "Invalid Level Detected",
+                IsAllLevelsCompleted = false
             });
 
 
@@ -194,30 +195,34 @@ namespace LevelUpBackEnd
 
             if (question.Answer.CompareAnswer(data.Answer))
             {
+                var nextLevel = data.Level + 1;
                 var userTableToUpdate = new UserEntity
                 {
                     RowKey = user.RowKey,
                     PartitionKey = user.PartitionKey,
-                    Level = data.Level + 1,
+                    Level = nextLevel,
                     LastUpdated = DateTime.Now,
                     UserName = data.UserName,
                     ETag = "*"
                 };
 
                 var updateOperation = TableOperation.Replace(userTableToUpdate);
-                var result = await tableEntity.ExecuteAsync(updateOperation);
+                var _ = await tableEntity.ExecuteAsync(updateOperation);
 
                 return new OkObjectResult(new ValidateAnswerResponse
                 {
                     Result = true,
-                    Message = "Congrats, that is the correct answer"
-                });
+                    Message = "Congrats, that is the correct answer",
+                    IsAllLevelsCompleted = nextLevel > 40
+                }) ; ;
             }
-            else {
+            else 
+            {
                 return new OkObjectResult(new ValidateAnswerResponse
                 {
                     Result = false,
-                    Message = "Sorry,Wrong Answer !!"
+                    Message = "Sorry,Wrong Answer !!",
+                    IsAllLevelsCompleted = false
                 });
             }
             

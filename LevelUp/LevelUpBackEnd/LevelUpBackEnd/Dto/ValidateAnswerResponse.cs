@@ -8,5 +8,6 @@ namespace LevelUpBackEnd.Dto
     {
         public bool Result { get; set; }
         public string Message { get; set; }
+        public bool IsAllLevelsCompleted { get; set; }
     }
 }
