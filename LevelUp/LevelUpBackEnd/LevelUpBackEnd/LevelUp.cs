@@ -104,7 +104,7 @@ namespace LevelUpBackEnd
             var results = response.Results;
 
             var sortedfResults = results.OrderByDescending(x => x.Level)
-                                        .ThenByDescending(x => x.LastUpdated)
+                                        .ThenBy(x => x.LastUpdated)
                                         .Select((x,index)=> new 
                                         {
                                             UserName = x.UserName,

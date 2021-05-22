@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <v-sheet
-          class="text-h2"
+          class="text-h3"
           elevation="1"
           rounded
           color="blue accent-2"
@@ -13,8 +13,8 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
-        <v-img v-bind:src="imageUrl" />
+      <v-col class="d-flex justify-center">
+        <v-img max-width="320" v-bind:src="imageUrl" />
       </v-col>
     </v-row>
     <v-row
