@@ -86,7 +86,7 @@ export default {
   computed: mapGetters(["currentUser"]),
   methods: {
     onSuccess() {
-      this.$router.go();
+      this.$router.push("loading");
     },
     async onSubmit(e) {
       e.preventDefault();
