@@ -37,7 +37,7 @@ jobs:
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'quiki'
+        app-name: 'TheLevelUp'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_3c0b3112503f477892cfed59aec506fe }}
         package: .
