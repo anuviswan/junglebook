@@ -55,3 +55,4 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_d02dcf2c41ac4a07b00608627273e0a5 }}
         package: .
+        working-directory: LevelUp/levelupclient/levelup
