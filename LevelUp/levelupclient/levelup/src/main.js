@@ -6,6 +6,7 @@ import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
 import axios from "axios"
 import { getHttpHeader } from "./api/utils";
+import "vuetify/dist/vuetify.min.css";
 
 Vue.config.productionTip = false
 Vue.use(Vuetify);
@@ -54,6 +55,7 @@ axios.interceptors.response.use(
     };
   }
 );
+
 
 new Vue({
   vuetify : new Vuetify(),  
