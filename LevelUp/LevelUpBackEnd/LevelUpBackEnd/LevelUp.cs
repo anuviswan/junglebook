@@ -32,6 +32,11 @@ namespace LevelUpBackEnd
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<NextQuestionRequest>(requestBody);
 
+            if (string.IsNullOrEmpty(data.UserName))
+            {
+                return new BadRequestObjectResult("Invalid Username");
+            }
+
             log.LogInformation($"{Utils.FunctionName_GetNextQuestion}:Request from {data.UserName}");
 
             if (keyTable == null)
@@ -41,7 +46,7 @@ namespace LevelUpBackEnd
 
             await tableEntity.CreateIfNotExistsAsync();
             var userQuery = new TableQuery<UserEntity>();
-            userQuery.FilterString = TableQuery.GenerateFilterCondition(nameof(UserEntity.UserName), QueryComparisons.Equal, data.UserName);
+            userQuery.FilterString = TableQuery.GenerateFilterCondition(nameof(UserEntity.UserName), QueryComparisons.Equal, data.UserName.ToLower());
             var tableContinuation = default(TableContinuationToken);
             var userResponse = await tableEntity.ExecuteQuerySegmentedAsync(userQuery,tableContinuation);
             var currentLevel = 1;
@@ -53,7 +58,7 @@ namespace LevelUpBackEnd
                 {
                     PartitionKey = Utils.Key_User,
                     RowKey = itemId.ToString(),
-                    UserName = data.UserName,
+                    UserName = data.UserName.ToLower(),
                     Level = 1,
                     LastUpdated = DateTime.Now
                 };
@@ -72,10 +77,12 @@ namespace LevelUpBackEnd
                                                                    TableQuery.GenerateFilterCondition(nameof(QuestionEntity.PartitionKey), QueryComparisons.Equal, Utils.Key_Question));
             var questionContinuation = default(TableContinuationToken);
             var questionResponse = await tableEntity.ExecuteQuerySegmentedAsync(questionQuery, questionContinuation);
+            var nextQuestion = questionResponse.First();
 
-            return new OkObjectResult(new
+            return new OkObjectResult(new NextQuestionResponse
             {
-                Url = questionResponse.First().Url
+                Url = nextQuestion.Url,
+                Level = nextQuestion.Level
             }); 
         }
 
@@ -221,7 +228,7 @@ namespace LevelUpBackEnd
                 return new OkObjectResult(new ValidateAnswerResponse
                 {
                     Result = false,
-                    Message = "Sorry,Wrong Answer !!",
+                    Message = "Sorry,Wrong Answer.Try Again !!",
                     IsAllLevelsCompleted = false
                 });
             }
