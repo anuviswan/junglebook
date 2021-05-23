@@ -24,23 +24,23 @@ const getLeaderBoard = async () => {
 
 const getNextQuestion= async(userName)=>{
   const config={
-    userName:userName
+    userName:userName.toLowerCase()
   };
 
   //const response = await axios.post('http://localhost:7071/api/GetNextQuestion',config);
-  const response = await axios.post('https://levelupbackend.azurewebsites.net/api/GetNextQuestion?code=YpVS9XThdnImq/vACcSHa6vfEYXhI5Yo5JjzUOGTTcxO8kvITcw8UA==',config);
+ const response = await axios.post('https://levelupbackend.azurewebsites.net/api/GetNextQuestion?code=YpVS9XThdnImq/vACcSHa6vfEYXhI5Yo5JjzUOGTTcxO8kvITcw8UA==',config);
   return response;
 }
 
 const validateAnswer = async (userName,level,answer)=>{
   const config ={
-    userName:userName,
+    userName:userName.toLowerCase(),
     level : level,
     answer:answer
   };
 
- // const response = await axios.post('http://localhost:7071/api/Validate',config);
-  const response = await axios.post('https://levelupbackend.azurewebsites.net/api/Validate?code=Bip1glLTjmtHXhLyjWn8ce/WE4DUfaSIuIRa/l9mj48Nj/t9Ku/VDg==',config);
+  //const response = await axios.post('http://localhost:7071/api/Validate',config);
+ const response = await axios.post('https://levelupbackend.azurewebsites.net/api/Validate?code=Bip1glLTjmtHXhLyjWn8ce/WE4DUfaSIuIRa/l9mj48Nj/t9Ku/VDg==',config);
   return response;
 }
 
