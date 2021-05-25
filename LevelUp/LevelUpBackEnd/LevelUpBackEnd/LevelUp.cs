@@ -220,7 +220,7 @@ namespace LevelUpBackEnd
                 {
                     Result = true,
                     Message = "Congrats, that is the correct answer",
-                    IsAllLevelsCompleted = nextLevel > 40
+                    IsAllLevelsCompleted = question.IsLastQuestion
                 }) ; ;
             }
             else 
@@ -229,7 +229,7 @@ namespace LevelUpBackEnd
                 {
                     Result = false,
                     Message = "Sorry,Wrong Answer.Try Again !!",
-                    IsAllLevelsCompleted = false
+                    IsAllLevelsCompleted = question.IsLastQuestion
                 });
             }
             
