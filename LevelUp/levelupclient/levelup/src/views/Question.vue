@@ -104,12 +104,13 @@ export default {
 
       console.log(result.data.isAllLevelsCompleted && result.data.result);
       if (result.data.isAllLevelsCompleted && result.data.result) {
+        console.log("Detected end of questionaire");
         this.$router.push("Winner");
+      } else {
+        this.message = result.data.message;
+        this.isCorrectAnswer = result.data.result;
+        console.log(result.data);
       }
-
-      this.message = result.data.message;
-      this.isCorrectAnswer = result.data.result;
-      console.log(result.data);
     },
   },
   async created() {

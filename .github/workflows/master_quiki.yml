@@ -1,36 +1,38 @@
-# # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# # More GitHub Actions for Azure: https://github.com/Azure/actions
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
 
-# name: Build and deploy Node.js app to Azure Web App - quiki
+name: Build and deploy Node.js app to Azure Web App - quiki
 
-# on:
-#   push:
-#     branches:
-#       - master
+on:
+  push:
+    paths:
+      - '\Quiki\'
+    branches:
+      - master
 
-# jobs:
-#   build-and-deploy:
-#     runs-on: windows-latest
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
 
-#     steps:
-#     - uses: actions/checkout@master
+    steps:
+    - uses: actions/checkout@master
 
-#     - name: Set up Node.js version
-#       uses: actions/setup-node@v1
-#       with:
-#         node-version: '12.13.0'
+    - name: Set up Node.js version
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.0'
 
-#     - name: npm install, build, and test
-#       run: |
-#         npm install
-#         npm run build --if-present
-#         npm run test --if-present
-#       working-directory: quiki/quiki
+    - name: npm install, build, and test
+      run: |
+        npm install
+        npm run build --if-present
+        npm run test --if-present
+      working-directory: quiki/quiki
 
-#     - name: 'Deploy to Azure Web App'
-#       uses: azure/webapps-deploy@v2
-#       with:
-#         app-name: 'quiki'
-#         slot-name: 'production'
-#         publish-profile: ${{ secrets.AzureAppService_PublishProfile_86bd3050cda349bfbd666286f461d54b }}
-#         package: .
+    - name: 'Deploy to Azure Web App'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'quiki'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_86bd3050cda349bfbd666286f461d54b }}
+        package: .
