@@ -5,6 +5,8 @@ name: Build and deploy Node.js app to Azure Web App - TheLevelUp
 
 on:
   push:
+    paths:
+      - '\LevelUp\'
     branches:
       - master
   workflow_dispatch:
@@ -28,11 +30,6 @@ jobs:
         npm run test --if-present
       working-directory: LevelUp/levelupclient/levelup
 
-    # - name: Upload artifact for deployment job
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: node-app
-    #     path: .
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
@@ -41,26 +38,3 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_3c0b3112503f477892cfed59aec506fe }}
         package: .
-
-
-  # deploy:
-  #   runs-on: windows-latest
-  #   needs: build
-  #   environment:
-  #     name: 'production'
-  #     url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-  #   steps:
-  #   - name: Download artifact from build job
-  #     uses: actions/download-artifact@v2
-  #     with:
-  #       name: node-app
-
-  #   - name: 'Deploy to Azure Web App'
-  #     id: deploy-to-webapp
-  #     uses: azure/webapps-deploy@v2
-  #     with:
-  #       app-name: 'TheLevelUp'
-  #       slot-name: 'production'
-  #       publish-profile: ${{ secrets.AzureAppService_PublishProfile_3c0b3112503f477892cfed59aec506fe }}
-  #       package: .
