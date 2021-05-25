@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Question from '../views/Question.vue'
 import Home from '../views/Home.vue'
 import Loading from "../views/Loading.vue"
-
+import Winner from "../views/Winner.vue"
 Vue.use(VueRouter)
 
 const routes = [
@@ -21,6 +21,11 @@ const routes = [
     path: '/Loading',
     name: 'Loading',
     component: Loading
+  },
+  {
+    path:"/Winner",
+    name:"Winner",
+    component:Winner
   }
 ]
 
