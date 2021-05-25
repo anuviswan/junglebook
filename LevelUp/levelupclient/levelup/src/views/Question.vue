@@ -102,7 +102,7 @@ export default {
         return;
       }
 
-      console.log(result.data.isAllLevelsCompleted);
+      console.log(result.data.isAllLevelsCompleted && result.data.result);
       if (result.data.isAllLevelsCompleted) {
         this.$router.push("Winner");
       }
