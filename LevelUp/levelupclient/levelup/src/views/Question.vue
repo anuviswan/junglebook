@@ -102,6 +102,11 @@ export default {
         return;
       }
 
+      console.log(result.data.isAllLevelsCompleted);
+      if (result.data.isAllLevelsCompleted) {
+        this.$router.push("Winner");
+      }
+
       this.message = result.data.message;
       this.isCorrectAnswer = result.data.result;
       console.log(result.data);
