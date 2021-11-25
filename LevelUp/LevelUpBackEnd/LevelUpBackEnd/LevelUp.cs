@@ -74,6 +74,10 @@ namespace LevelUpBackEnd
                                                                    TableQuery.GenerateFilterCondition(nameof(QuestionEntity.PartitionKey), QueryComparisons.Equal, Utils.Key_Question));
             var questionContinuation = default(TableContinuationToken);
             var questionResponse = await tableEntity.ExecuteQuerySegmentedAsync(questionQuery, questionContinuation);
+
+            if (!questionResponse.Any()) 
+                return new NotFoundResult();
+            
             var nextQuestion = questionResponse.First();
 
             return new OkObjectResult(new NextQuestionResponse
