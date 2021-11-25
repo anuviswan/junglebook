@@ -12,6 +12,7 @@
         public const string FunctionName_CreateQuestion = "CreateQuestion";
         public const string FunctionName_ValidateAnswer = "Validate";
         public const string FunctionName_AddClue = "AddClue";
+        public const string FunctionName_GetNextClue = "GetNextClue";
 
         public const string Table_Name = "levelUp";
         public const string Blob_Container_Name = "levelupimagestore";
