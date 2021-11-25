@@ -57,7 +57,8 @@ namespace LevelUpBackEnd
                     RowKey = itemId.ToString(),
                     UserName = data.UserName.ToLower(),
                     Level = 1,
-                    LastUpdated = DateTime.Now
+                    LastUpdated = DateTime.Now,
+                    CurrentClue = 0
                 };
 
                 var addOperation = TableOperation.Insert(item);
@@ -88,6 +89,37 @@ namespace LevelUpBackEnd
         }
 
 
+        [FunctionName(Utils.FunctionName_AddClue)]
+        public static async Task<IActionResult> AddClue(
+            [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethods.Post), Route = null)] HttpRequest req,
+            [Table(Utils.Table_Name, Utils.Key_Partition, Utils.Key_Clue)] KeyTableEntity keyTable,
+            [Table(Utils.Table_Name)] CloudTable tableEntity,ILogger log)
+        {
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var clue = JsonConvert.DeserializeObject<AddClueRequest>(requestBody);
+
+            if (keyTable == null)
+            {
+                keyTable = await tableEntity.InitialiazeKeyPartition(Utils.Key_Clue);
+            }
+
+            var itemId = await tableEntity.GetNewKey(keyTable);
+
+            var clueEntity = new ClueEntity
+            {
+                ClueDescription = clue.Description,
+                ClueNumber = clue.ClueLevel,
+                QuestionId = clue.QuestionId,
+                PartitionKey = "Clue",
+                RowKey = itemId.ToString(),
+            };
+
+            var addOperation = TableOperation.Insert(clueEntity);
+            await tableEntity.ExecuteAsync(addOperation);
+
+            return new OkObjectResult(new { QuestionId = clue.QuestionId, ClueId = itemId });
+
+        }
 
         [FunctionName(Utils.FunctionName_GetScores)]
         public static async Task<IActionResult> GetScores(

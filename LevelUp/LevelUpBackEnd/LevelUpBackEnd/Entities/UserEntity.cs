@@ -8,5 +8,7 @@ namespace LevelUpBackEnd.Entities
         public string UserName { get; set; }
         public int Level { get; set; }
         public DateTime LastUpdated { get; set; }
+
+        public int CurrentClue { get; set; } = 0;
     }
 }
