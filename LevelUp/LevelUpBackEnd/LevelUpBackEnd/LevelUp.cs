@@ -173,17 +173,7 @@ namespace LevelUpBackEnd
             var userClueLevel = currentUser.CurrentClue;
             var userLastUpdateTimeStamp = currentUser.LastUpdated;
 
-            var timeRamaining = new TimeSpan(0,30,0) - DateTime.UtcNow.Subtract(userLastUpdateTimeStamp);
-
-            if (timeRamaining.TotalSeconds > 1)
-            {
-                return new OkObjectResult(new NextClueResponse
-                {
-                    HasClue = false,
-                    TimeRemaining = timeRamaining
-                });
-
-            }
+            
 
             var questionQuery = new TableQuery<QuestionEntity>();
             questionQuery.FilterString = TableQuery.GenerateFilterConditionForInt(nameof(QuestionEntity.Level), QueryComparisons.Equal, userQuestionLevel);
@@ -201,43 +191,58 @@ namespace LevelUpBackEnd
             {
                 return new OkObjectResult(new NextClueResponse
                 {
-                    HasClue = false,
+                    CluesRemaining = 0,
                 });
             }
 
-            var nextClue = clues.FirstOrDefault(x => x.ClueNumber == userClueLevel + 1);
-            if (nextClue is null)
+            var timeRamaining = new TimeSpan(0, 30, 0) - DateTime.UtcNow.Subtract(userLastUpdateTimeStamp);
+            var availableClues = clues.Where(x => x.ClueNumber <= userClueLevel + 1)
+                                      .OrderBy(x => x.ClueNumber)
+                                      .Select(x => new Clue
+                                               {
+                                                   ClueId = x.ClueNumber,
+                                                   Description = x.ClueDescription,
+                                               });
+
+            var cluesRemaining = clues.Count() - availableClues.Count();
+
+            if (timeRamaining.TotalSeconds > 1)
             {
                 return new OkObjectResult(new NextClueResponse
                 {
-                    HasClue = false,
+                    CluesRemaining = cluesRemaining,
+                    TimeLeftForNextClue = timeRamaining,
+                    AvailableClues = availableClues
                 });
+
             }
-
-            var result = new OkObjectResult(new NextClueResponse
+            else
             {
-                HasClue = true,
-                ClueId = userClueLevel + 1,
-                Description = nextClue.ClueDescription
-            });
+                return new OkObjectResult(new NextClueResponse
+                {
+                    CluesRemaining = cluesRemaining,
+                    TimeLeftForNextClue = new TimeSpan(0),
+                    AvailableClues = availableClues
+                });
 
-            var nextLevel = userClueLevel + 1;
-            var userTableToUpdate = new UserEntity
-            {
-                RowKey = currentUser.RowKey,
-                PartitionKey = currentUser.PartitionKey,
-                Level = currentUser.Level,
-                LastUpdated = DateTime.UtcNow,
-                UserName = currentUser.UserName,
-                CurrentClue = nextLevel,
-                ETag = "*"
-            };
 
-            var updateOperation = TableOperation.Replace(userTableToUpdate);
-            var _ = await tableEntity.ExecuteAsync(updateOperation);
 
-            return result;
+                var nextLevel = userClueLevel + 1;
+                var userTableToUpdate = new UserEntity
+                {
+                    RowKey = currentUser.RowKey,
+                    PartitionKey = currentUser.PartitionKey,
+                    Level = currentUser.Level,
+                    LastUpdated = DateTime.UtcNow,
+                    UserName = currentUser.UserName,
+                    CurrentClue = nextLevel,
+                    ETag = "*"
+                };
 
+                var updateOperation = TableOperation.Replace(userTableToUpdate);
+                var _ = await tableEntity.ExecuteAsync(updateOperation);
+            }
+         
         }
 
         [FunctionName(Utils.FunctionName_CreateQuestion)]
