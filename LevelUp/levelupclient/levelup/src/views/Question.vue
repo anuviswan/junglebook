@@ -67,7 +67,7 @@
     </v-row>
     <v-row>
       <v-col>
-        sdsd
+        <v-btn>Get Clue</v-btn>
       </v-col>
     </v-row>
   </v-container>
