@@ -147,6 +147,7 @@ namespace LevelUpBackEnd
             return new OkObjectResult(sortedfResults);
         }
 
+        [FunctionName(Utils.FunctionName_GetNextClue)]
         public static async Task<IActionResult> GetNextClue([HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethods.Post), Route = null)] HttpRequest req,
             [Table(Utils.Table_Name, Utils.Key_Partition, Utils.Key_User)] KeyTableEntity keyTable,
             [Table(Utils.Table_Name)] CloudTable tableEntity,
@@ -167,20 +168,28 @@ namespace LevelUpBackEnd
             userQuery.FilterString = TableQuery.GenerateFilterCondition(nameof(UserEntity.UserName), QueryComparisons.Equal, data.UserName.ToLower());
             var tableContinuation = default(TableContinuationToken);
             var userResponse = await tableEntity.ExecuteQuerySegmentedAsync(userQuery, tableContinuation);
-            var userQuestionLevel = userResponse.Results.First().Level;
-            var userClueLevel = userResponse.Results.First().CurrentClue;
-            var userLastUpdateTimeStamp = userResponse.Results.First().LastUpdated;
+            var currentUser = userResponse.Results.First();
+            var userQuestionLevel = currentUser.Level;
+            var userClueLevel = currentUser.CurrentClue;
+            var userLastUpdateTimeStamp = currentUser.LastUpdated;
 
-            if(DateTime.UtcNow.Subtract(userLastUpdateTimeStamp) < new TimeSpan(0,30,0))
+            var timeRamaining = new TimeSpan(0,30,0) - DateTime.UtcNow.Subtract(userLastUpdateTimeStamp);
+
+            if (timeRamaining.TotalSeconds > 1)
             {
-                return new BadRequestObjectResult("Time not up");
-            }    
+                return new OkObjectResult(new NextClueResponse
+                {
+                    HasClue = false,
+                    TimeRemaining = timeRamaining
+                });
+
+            }
 
             var questionQuery = new TableQuery<QuestionEntity>();
             questionQuery.FilterString = TableQuery.GenerateFilterConditionForInt(nameof(QuestionEntity.Level), QueryComparisons.Equal, userQuestionLevel);
             tableContinuation = default(TableContinuationToken);
             var questionResponse = await tableEntity.ExecuteQuerySegmentedAsync(questionQuery, tableContinuation);
-            var currentQuestionId = questionResponse.Results.First().Level;
+            var currentQuestionId = Int32.Parse( questionResponse.Results.First().RowKey);
 
             var clueQuery = new TableQuery<ClueEntity>();
             clueQuery.FilterString = TableQuery.GenerateFilterConditionForInt(nameof(ClueEntity.QuestionId), QueryComparisons.Equal, currentQuestionId);
@@ -205,12 +214,29 @@ namespace LevelUpBackEnd
                 });
             }
 
-            return new OkObjectResult(new NextClueResponse
+            var result = new OkObjectResult(new NextClueResponse
             {
                 HasClue = true,
                 ClueId = userClueLevel + 1,
                 Description = nextClue.ClueDescription
             });
+
+            var nextLevel = userClueLevel + 1;
+            var userTableToUpdate = new UserEntity
+            {
+                RowKey = currentUser.RowKey,
+                PartitionKey = currentUser.PartitionKey,
+                Level = currentUser.Level,
+                LastUpdated = DateTime.UtcNow,
+                UserName = currentUser.UserName,
+                CurrentClue = nextLevel,
+                ETag = "*"
+            };
+
+            var updateOperation = TableOperation.Replace(userTableToUpdate);
+            var _ = await tableEntity.ExecuteAsync(updateOperation);
+
+            return result;
 
         }
 
