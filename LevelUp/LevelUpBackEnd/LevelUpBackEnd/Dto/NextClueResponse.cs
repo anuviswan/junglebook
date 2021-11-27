@@ -9,7 +9,7 @@ namespace LevelUpBackEnd.Dto
         
         public IEnumerable<Clue> AvailableClues { get; set; }
 
-        public TimeSpan TimeLeftForNextClue { get; set; }
+        public double TimeLeftForNextClue { get; set; }
     }
 
     public class Clue

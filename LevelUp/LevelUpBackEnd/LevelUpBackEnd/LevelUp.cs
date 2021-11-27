@@ -211,7 +211,7 @@ namespace LevelUpBackEnd
                 return new OkObjectResult(new NextClueResponse
                 {
                     CluesRemaining = cluesRemaining,
-                    TimeLeftForNextClue = timeRamaining,
+                    TimeLeftForNextClue = timeRamaining.TotalMinutes,
                     AvailableClues = availableClues
                 });
 
@@ -221,7 +221,7 @@ namespace LevelUpBackEnd
                 return new OkObjectResult(new NextClueResponse
                 {
                     CluesRemaining = cluesRemaining,
-                    TimeLeftForNextClue = new TimeSpan(0),
+                    TimeLeftForNextClue = 0,
                     AvailableClues = availableClues
                 });
 
